@@ -8,3 +8,8 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Project architecture
+
+- Keep the MVP as one state-driven experience on `/`; the core write-unlock-play loop should never require page navigation.
+- Persist child-safe plan and progress settings in browser storage so the app works without accounts or connectivity.
