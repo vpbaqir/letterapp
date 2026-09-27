@@ -36,6 +36,7 @@ type AppState = {
   letters: string[];
   order: Order;
   target: number;
+  targets: Record<string, number>;
   guide: GuideMode;
   currentIndex: number;
   progress: Record<string, number>;
@@ -52,6 +53,7 @@ const DEFAULT_STATE: AppState = {
   letters: ["A", "B", "C"],
   order: "sequential",
   target: 5,
+  targets: { A: 5, B: 5, C: 5 },
   guide: "guided",
   currentIndex: 0,
   progress: { A: 0, B: 0, C: 0 },
@@ -93,10 +95,11 @@ export function WriteUnlockApp() {
 
   const currentLetter = state.letters[state.currentIndex] ?? "A";
   const currentProgress = state.progress[currentLetter] ?? 0;
+  const currentTarget = state.targets?.[currentLetter] ?? state.target;
 
   const acceptWriting = () => {
-    const nextCount = Math.min(currentProgress + 1, state.target);
-    const isComplete = nextCount >= state.target;
+    const nextCount = Math.min(currentProgress + 1, currentTarget);
+    const isComplete = nextCount >= currentTarget;
     setState((previous) => ({
       ...previous,
       progress: { ...previous.progress, [currentLetter]: nextCount },
@@ -120,13 +123,13 @@ export function WriteUnlockApp() {
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto min-h-screen w-full max-w-6xl px-4 pb-28 pt-5 sm:px-7 lg:px-10 lg:pt-8">
         {screen === "home" && (
-          <ChildHome state={state} currentLetter={currentLetter} onNavigate={setScreen} />
+          <ChildHome state={state} currentLetter={currentLetter} target={currentTarget} onNavigate={setScreen} />
         )}
         {screen === "write" && (
           <WritingScreen
             letter={currentLetter}
             progress={currentProgress}
-            target={state.target}
+            target={currentTarget}
             guide={state.guide}
             onBack={() => setScreen("home")}
             onAccepted={acceptWriting}
@@ -166,10 +169,12 @@ function Brand({ parent = false }: { parent?: boolean }) {
 function ChildHome({
   state,
   currentLetter,
+  target,
   onNavigate,
 }: {
   state: AppState;
   currentLetter: string;
+  target: number;
   onNavigate: (screen: Screen) => void;
 }) {
   const progress = state.progress[currentLetter] ?? 0;
@@ -197,7 +202,7 @@ function ChildHome({
                 <p className="text-sm font-bold text-ink-soft">Today&apos;s letter</p>
                 <p className="mt-1 font-display text-[7.5rem] font-bold leading-none text-foreground sm:text-[9rem]">{currentLetter}</p>
               </div>
-              <div className="rounded-full bg-glass px-4 py-2 text-sm font-bold backdrop-blur-md">{progress} / {state.target} written</div>
+              <div className="rounded-full bg-glass px-4 py-2 text-sm font-bold backdrop-blur-md">{progress} / {target} written</div>
             </div>
             <Button className="h-14 w-full rounded-2xl text-base font-bold shadow-button sm:w-48" onClick={() => onNavigate("write")}>
               <Pencil /> Write {currentLetter}
@@ -337,7 +342,7 @@ function WritingScreen({ letter, progress, target, guide, onBack, onAccepted }: 
 
       <div className="mt-7 text-center"><h1 className="font-display text-3xl font-bold">Write it your way</h1><p className="mt-2 text-sm font-semibold text-muted-foreground">Use your finger, mouse, or pencil</p></div>
 
-      <div className="relative mt-6 aspect-[4/3] max-h-[58vh] min-h-[390px] overflow-hidden rounded-[2rem] border border-border/70 bg-canvas shadow-card">
+      <div className="relative mt-6 h-[390px] overflow-hidden rounded-[2rem] border border-border/70 bg-canvas shadow-card sm:aspect-[4/3] sm:h-auto sm:max-h-[58vh] sm:min-h-[390px]">
         {guide !== "free" && <div className={cn("pointer-events-none absolute inset-0 grid place-items-center font-display text-[16rem] font-bold leading-none text-guide sm:text-[22rem]", guide === "guided" && "guide-dotted")}>{letter}</div>}
         <canvas ref={canvasRef} className="absolute inset-0 size-full touch-none cursor-crosshair" aria-label={`Drawing area for letter ${letter}`} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end} />
         {feedback && <div className={cn("pointer-events-none absolute inset-x-0 top-6 mx-auto w-fit rounded-full px-5 py-3 text-sm font-bold shadow-soft animate-pop", feedback === "nice" ? "bg-mint text-mint-foreground" : "bg-card text-foreground")}>{feedback === "nice" ? "✨ Nice writing!" : "Almost! Make your letter a little bigger."}</div>}
@@ -399,7 +404,7 @@ function ParentScreen({ state, setState, onDone }: { state: AppState; setState: 
       const selected = previous.letters.includes(letter);
       if (selected && previous.letters.length === 1) return previous;
       const letters = selected ? previous.letters.filter((item) => item !== letter) : [...previous.letters, letter].sort();
-      return { ...previous, letters, currentIndex: 0, progress: { ...previous.progress, [letter]: previous.progress[letter] ?? 0 } };
+      return { ...previous, letters, currentIndex: 0, progress: { ...previous.progress, [letter]: previous.progress[letter] ?? 0 }, targets: { ...previous.targets, [letter]: previous.targets?.[letter] ?? previous.target } };
     });
   };
   const reset = () => setState((previous) => ({ ...DEFAULT_STATE, childName: previous.childName, sound: previous.sound }));
@@ -410,9 +415,9 @@ function ParentScreen({ state, setState, onDone }: { state: AppState; setState: 
         {(["overview", "plan", "settings"] as const).map((item) => <Button key={item} variant={tab === item ? "default" : "ghost"} className="h-11 flex-1 rounded-xl capitalize" onClick={() => setTab(item)}>{item === "overview" ? <Home /> : item === "plan" ? <Pencil /> : <Settings2 />}{item}</Button>)}
       </nav>
 
-      {tab === "overview" && <div className="mt-9"><p className="text-sm font-bold text-primary">Good morning</p><h1 className="mt-2 font-display text-4xl font-bold">{state.childName}&apos;s progress</h1><div className="mt-7 grid gap-5 lg:grid-cols-[1.3fr_0.7fr]"><div className="rounded-[2rem] bg-ink p-7 text-ink-foreground shadow-card sm:p-9"><p className="text-sm font-bold text-ink-muted">Writing journey</p><div className="mt-4 flex items-end justify-between"><p className="font-display text-5xl font-bold">{state.completed.length}<span className="text-xl text-ink-muted"> / {state.letters.length}</span></p><Trophy className="size-9 text-sun" /></div><progress className="progress progress-light mt-7 h-2 w-full" value={state.completed.length} max={state.letters.length}>Letters complete</progress><div className="mt-8 border-t border-ink-line pt-6"><p className="text-sm font-semibold text-ink-muted">Current practice</p><p className="mt-2 text-xl font-bold">{currentLetter} · {state.progress[currentLetter] ?? 0} / {state.target}</p></div></div><div className="grid gap-4"><StatCard icon={<Pencil />} value={state.totalWritten} label="Total writings" tone="coral" /><StatCard icon={<Gamepad2 />} value={state.runnerUnlocked ? 1 : 0} label="Games unlocked" tone="yellow" /></div></div></div>}
+      {tab === "overview" && <div className="mt-9"><p className="text-sm font-bold text-primary">Good morning</p><h1 className="mt-2 font-display text-4xl font-bold">{state.childName}&apos;s progress</h1><div className="mt-7 grid gap-5 lg:grid-cols-[1.3fr_0.7fr]"><div className="rounded-[2rem] bg-ink p-7 text-ink-foreground shadow-card sm:p-9"><p className="text-sm font-bold text-ink-muted">Writing journey</p><div className="mt-4 flex items-end justify-between"><p className="font-display text-5xl font-bold">{state.completed.length}<span className="text-xl text-ink-muted"> / {state.letters.length}</span></p><Trophy className="size-9 text-sun" /></div><progress className="progress progress-light mt-7 h-2 w-full" value={state.completed.length} max={state.letters.length}>Letters complete</progress><div className="mt-8 border-t border-ink-line pt-6"><p className="text-sm font-semibold text-ink-muted">Current practice</p><p className="mt-2 text-xl font-bold">{currentLetter} · {state.progress[currentLetter] ?? 0} / {state.targets?.[currentLetter] ?? state.target}</p></div></div><div className="grid gap-4"><StatCard icon={<Pencil />} value={state.totalWritten} label="Total writings" tone="coral" /><StatCard icon={<Gamepad2 />} value={state.runnerUnlocked ? 1 : 0} label="Games unlocked" tone="yellow" /></div></div></div>}
 
-      {tab === "plan" && <div className="mt-9"><p className="text-sm font-bold text-primary">Practice plan</p><h1 className="mt-2 font-display text-4xl font-bold">Choose the journey</h1><div className="mt-7 rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><div className="flex items-center justify-between"><h2 className="font-display text-xl font-bold">Choose letters</h2><span className="text-sm font-semibold text-muted-foreground">{state.letters.length} selected</span></div><div className="mt-5 grid grid-cols-6 gap-2 sm:grid-cols-9 md:grid-cols-13">{ALPHABET.map((letter) => <Button key={letter} variant={state.letters.includes(letter) ? "default" : "outline"} className="aspect-square h-auto rounded-xl p-0 text-base font-bold" onClick={() => toggleLetter(letter)}>{letter}</Button>)}</div></div><div className="mt-5 grid gap-5 md:grid-cols-2"><div className="rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><div className="flex items-center justify-between"><h2 className="font-display text-xl font-bold">How many times?</h2><span className="font-display text-3xl font-bold text-primary">{state.target}</span></div><Slider className="mt-7" min={3} max={20} step={1} value={[state.target]} onValueChange={(value) => setState((previous) => ({ ...previous, target: value[0] ?? 5 }))} aria-label="Writing target" /><div className="mt-6 flex gap-2">{[5, 10, 15, 20].map((value) => <Button key={value} size="sm" variant={state.target === value ? "default" : "outline"} className="flex-1 rounded-xl" onClick={() => setState((previous) => ({ ...previous, target: value }))}>{value}</Button>)}</div></div><div className="rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><h2 className="font-display text-xl font-bold">Letter order</h2><div className="mt-5 grid gap-2">{([{ key: "sequential", label: "Sequential", icon: <Target /> }, { key: "custom", label: "My selected order", icon: <Pencil /> }, { key: "random", label: "Mix it up", icon: <Shuffle /> }] as const).map((option) => <Button key={option.key} variant={state.order === option.key ? "default" : "outline"} className="h-12 justify-start rounded-xl" onClick={() => setState((previous) => ({ ...previous, order: option.key }))}>{option.icon}{option.label}</Button>)}</div></div></div><div className="mt-5 rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><h2 className="font-display text-xl font-bold">Writing guide</h2><div className="mt-5 grid gap-3 sm:grid-cols-3">{(["guided", "semi", "free"] as GuideMode[]).map((mode) => <Button key={mode} variant={state.guide === mode ? "default" : "outline"} className="h-14 rounded-xl capitalize" onClick={() => setState((previous) => ({ ...previous, guide: mode }))}>{mode === "semi" ? "Semi-guided" : mode}</Button>)}</div></div><div className="mt-5 overflow-hidden rounded-[2rem] bg-card shadow-soft"><div className="grid md:grid-cols-[180px_1fr]"><img src={runnerImage} width={1200} height={900} loading="lazy" alt="Endless Runner reward" className="h-44 w-full object-cover md:h-full" /><div className="p-6"><p className="text-sm font-bold text-primary">WRITING REWARD</p><h2 className="mt-1 font-display text-2xl font-bold">Endless Runner</h2><p className="mt-2 text-sm font-semibold text-muted-foreground">Completing each letter unlocks one cheerful 30-second run.</p></div></div></div></div>}
+      {tab === "plan" && <div className="mt-9"><p className="text-sm font-bold text-primary">Practice plan</p><h1 className="mt-2 font-display text-4xl font-bold">Choose the journey</h1><div className="mt-7 rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><div className="flex items-center justify-between"><h2 className="font-display text-xl font-bold">Choose letters</h2><span className="text-sm font-semibold text-muted-foreground">{state.letters.length} selected</span></div><div className="mt-5 grid grid-cols-6 gap-2 sm:grid-cols-9 md:grid-cols-13">{ALPHABET.map((letter) => <Button key={letter} variant={state.letters.includes(letter) ? "default" : "outline"} className="aspect-square h-auto rounded-xl p-0 text-base font-bold" onClick={() => toggleLetter(letter)}>{letter}</Button>)}</div></div><div className="mt-5 grid gap-5 md:grid-cols-2"><div className="rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><div className="flex items-center justify-between"><h2 className="font-display text-xl font-bold">Default target</h2><span className="font-display text-3xl font-bold text-primary">{state.target}</span></div><Slider className="mt-7" min={3} max={20} step={1} value={[state.target]} onValueChange={(value) => { const target = value[0] ?? 5; setState((previous) => ({ ...previous, target, targets: Object.fromEntries(previous.letters.map((letter) => [letter, target])) })); }} aria-label="Writing target" /><div className="mt-6 flex gap-2">{[5, 10, 15, 20].map((value) => <Button key={value} size="sm" variant={state.target === value ? "default" : "outline"} className="flex-1 rounded-xl" onClick={() => setState((previous) => ({ ...previous, target: value, targets: Object.fromEntries(previous.letters.map((letter) => [letter, value])) }))}>{value}</Button>)}</div></div><div className="rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><h2 className="font-display text-xl font-bold">Letter order</h2><div className="mt-5 grid gap-2">{([{ key: "sequential", label: "Sequential", icon: <Target /> }, { key: "custom", label: "My selected order", icon: <Pencil /> }, { key: "random", label: "Mix it up", icon: <Shuffle /> }] as const).map((option) => <Button key={option.key} variant={state.order === option.key ? "default" : "outline"} className="h-12 justify-start rounded-xl" onClick={() => setState((previous) => ({ ...previous, order: option.key }))}>{option.icon}{option.label}</Button>)}</div></div></div><div className="mt-5 rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><div className="flex items-center justify-between"><h2 className="font-display text-xl font-bold">Individual targets</h2><span className="text-sm font-semibold text-muted-foreground">Tap − or +</span></div><div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{state.letters.map((letter) => { const value = state.targets?.[letter] ?? state.target; return <div key={letter} className="flex items-center justify-between rounded-2xl bg-secondary p-3"><span className="grid size-10 place-items-center rounded-xl bg-card font-display text-lg font-bold">{letter}</span><div className="flex items-center gap-2"><Button variant="ghost" size="icon" className="size-9 rounded-xl" aria-label={`Decrease ${letter} target`} onClick={() => setState((previous) => ({ ...previous, targets: { ...previous.targets, [letter]: Math.max(1, value - 1) } }))}>−</Button><span className="w-7 text-center font-bold">{value}</span><Button variant="ghost" size="icon" className="size-9 rounded-xl" aria-label={`Increase ${letter} target`} onClick={() => setState((previous) => ({ ...previous, targets: { ...previous.targets, [letter]: Math.min(50, value + 1) } }))}>+</Button></div></div>; })}</div></div><div className="mt-5 rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><h2 className="font-display text-xl font-bold">Writing guide</h2><div className="mt-5 grid gap-3 sm:grid-cols-3">{(["guided", "semi", "free"] as GuideMode[]).map((mode) => <Button key={mode} variant={state.guide === mode ? "default" : "outline"} className="h-14 rounded-xl capitalize" onClick={() => setState((previous) => ({ ...previous, guide: mode }))}>{mode === "semi" ? "Semi-guided" : mode}</Button>)}</div></div><div className="mt-5 overflow-hidden rounded-[2rem] bg-card shadow-soft"><div className="grid md:grid-cols-[180px_1fr]"><img src={runnerImage} width={1200} height={900} loading="lazy" alt="Endless Runner reward" className="h-44 w-full object-cover md:h-full" /><div className="p-6"><p className="text-sm font-bold text-primary">WRITING REWARD</p><h2 className="mt-1 font-display text-2xl font-bold">Endless Runner</h2><p className="mt-2 text-sm font-semibold text-muted-foreground">Completing each letter unlocks one cheerful 30-second run.</p></div></div></div></div>}
 
       {tab === "settings" && <div className="mt-9 max-w-2xl"><p className="text-sm font-bold text-primary">Settings</p><h1 className="mt-2 font-display text-4xl font-bold">Make it theirs</h1><div className="mt-7 space-y-4 rounded-[2rem] bg-card p-6 shadow-soft sm:p-8"><label className="block"><span className="text-sm font-bold">Child&apos;s name</span><Input className="mt-2 h-12 rounded-xl bg-background" value={state.childName} maxLength={20} onChange={(event) => setState((previous) => ({ ...previous, childName: event.target.value || "Writer" }))} /></label><div className="flex items-center justify-between rounded-2xl bg-secondary p-4"><div className="flex items-center gap-3">{state.sound ? <Volume2 /> : <VolumeX />}<div><p className="font-bold">Sounds</p><p className="text-sm text-muted-foreground">Celebration and game sounds</p></div></div><Button variant={state.sound ? "default" : "outline"} className="rounded-xl" onClick={() => setState((previous) => ({ ...previous, sound: !previous.sound }))}>{state.sound ? "On" : "Off"}</Button></div><Button variant="outline" className="h-12 w-full rounded-xl text-destructive" onClick={reset}><RotateCcw /> Reset progress</Button></div></div>}
     </section>
