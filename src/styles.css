@@ -59,29 +59,49 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-sky: var(--sky);
+  --color-canvas: var(--canvas);
+  --color-guide: var(--guide);
+  --color-glass: var(--glass);
+  --color-coral: var(--coral);
+  --color-coral-soft: var(--coral-soft);
+  --color-mint: var(--mint);
+  --color-mint-foreground: var(--mint-foreground);
+  --color-mint-strong: var(--mint-strong);
+  --color-sun: var(--sun);
+  --color-sun-soft: var(--sun-soft);
+  --color-sun-foreground: var(--sun-foreground);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-line: var(--ink-line);
+  --color-locked-overlay: var(--locked-overlay);
+  --color-game-end: var(--game-end);
+  --font-display: "Nunito", sans-serif;
+  --font-sans: "Nunito Sans", sans-serif;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --radius: 1rem;
+  --background: oklch(0.975 0.016 86);
+  --foreground: oklch(0.28 0.035 251);
+  --card: oklch(0.995 0.006 90);
+  --card-foreground: oklch(0.28 0.035 251);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --primary: oklch(0.62 0.16 244);
+  --primary-foreground: oklch(0.99 0.004 90);
+  --secondary: oklch(0.94 0.024 223);
+  --secondary-foreground: oklch(0.31 0.047 248);
+  --muted: oklch(0.945 0.015 85);
+  --muted-foreground: oklch(0.53 0.035 251);
+  --accent: oklch(0.91 0.07 155);
+  --accent-foreground: oklch(0.3 0.06 158);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.9 0.025 224);
+  --input: oklch(0.9 0.025 224);
+  --ring: oklch(0.62 0.16 244);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -95,6 +115,32 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sky: oklch(0.89 0.07 226);
+  --canvas: oklch(0.99 0.018 91);
+  --canvas-ink: oklch(0.4 0.13 247);
+  --guide: oklch(0.71 0.07 234 / 24%);
+  --glass: oklch(1 0 0 / 80%);
+  --coral: oklch(0.64 0.17 32);
+  --coral-soft: oklch(0.91 0.065 35);
+  --mint: oklch(0.9 0.08 158);
+  --mint-foreground: oklch(0.34 0.08 160);
+  --mint-strong: oklch(0.72 0.12 159);
+  --sun: oklch(0.82 0.16 83);
+  --sun-soft: oklch(0.94 0.1 91);
+  --sun-foreground: oklch(0.45 0.11 71);
+  --ink: oklch(0.31 0.06 250);
+  --ink-foreground: oklch(0.98 0.01 90);
+  --ink-muted: oklch(0.78 0.04 236);
+  --ink-line: oklch(1 0 0 / 14%);
+  --locked-overlay: oklch(0.25 0.02 250 / 32%);
+  --game-end: oklch(0.88 0.03 230 / 65%);
+  --hero-wash: linear-gradient(90deg, oklch(0.98 0.02 91 / 96%) 0%, oklch(0.98 0.02 91 / 56%) 46%, transparent 76%);
+  --game-wash: linear-gradient(180deg, oklch(0.3 0.04 250 / 10%), transparent 55%, oklch(0.3 0.04 250 / 18%));
+  --shadow-soft: 0 12px 32px oklch(0.42 0.06 240 / 10%);
+  --shadow-card: 0 22px 55px oklch(0.42 0.07 240 / 14%);
+  --shadow-button: 0 10px 24px oklch(0.55 0.17 244 / 27%);
+  --shadow-nav: 0 15px 45px oklch(0.35 0.05 245 / 18%);
+  --shadow-glow: 0 0 0 7px oklch(0.7 0.13 244 / 15%), 0 12px 28px oklch(0.56 0.16 244 / 25%);
 }
 
 .dark {
@@ -140,5 +186,48 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-image: linear-gradient(145deg, oklch(0.985 0.02 91), oklch(0.955 0.03 222));
+    min-width: 320px;
   }
+
+  button, [role="button"] { -webkit-tap-highlight-color: transparent; }
+}
+
+@utility shadow-soft { box-shadow: var(--shadow-soft); }
+@utility shadow-card { box-shadow: var(--shadow-card); }
+@utility shadow-button { box-shadow: var(--shadow-button); }
+@utility shadow-nav { box-shadow: var(--shadow-nav); }
+@utility shadow-glow { box-shadow: var(--shadow-glow); }
+@utility bg-hero-wash { background: var(--hero-wash); }
+@utility bg-game-wash { background: var(--game-wash); }
+
+.progress {
+  appearance: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: var(--secondary);
+}
+.progress::-webkit-progress-bar { background: var(--secondary); }
+.progress::-webkit-progress-value { background: var(--primary); border-radius: 999px; transition: width 350ms ease; }
+.progress::-moz-progress-bar { background: var(--primary); border-radius: 999px; }
+.progress-light::-webkit-progress-bar { background: var(--ink-line); }
+.progress-light::-webkit-progress-value { background: var(--sun); }
+.progress-light::-moz-progress-bar { background: var(--sun); }
+.guide-dotted { color: transparent; -webkit-text-stroke: 4px var(--guide); }
+
+@keyframes pop { 0% { transform: scale(.86); opacity: 0; } 70% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes celebrate { 0%,100% { transform: rotate(-3deg) scale(1); } 50% { transform: rotate(3deg) scale(1.06); } }
+@keyframes obstacle { from { left: 108%; } to { left: -20%; } }
+@keyframes star-run { from { left: 115%; transform: rotate(0); } to { left: -10%; transform: rotate(360deg); } }
+@keyframes jump { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-145px) rotate(8deg); } }
+.animate-pop { animation: pop 280ms ease-out both; }
+.animate-celebrate { animation: celebrate 1.8s ease-in-out infinite; }
+.runner-obstacle { animation: obstacle 2.8s linear infinite; }
+.runner-star { animation: star-run 3.7s linear infinite; }
+.runner-jump { animation: jump 650ms ease-in-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
