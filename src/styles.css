@@ -215,7 +215,21 @@
 .progress-light::-webkit-progress-bar { background: var(--ink-line); }
 .progress-light::-webkit-progress-value { background: var(--sun); }
 .progress-light::-moz-progress-bar { background: var(--sun); }
-.guide-dotted { color: transparent; -webkit-text-stroke: 4px var(--guide); }
+.guide-dotted {
+  color: transparent;
+  -webkit-text-stroke: 4px var(--guide);
+}
+.guide-animated {
+  background: linear-gradient(120deg, transparent 15%, oklch(0.72 0.12 159 / 30%) 35%, oklch(0.62 0.16 244 / 50%) 50%, oklch(0.72 0.12 159 / 30%) 65%, transparent 85%);
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 4px var(--guide);
+  animation: sweep 3s linear infinite;
+}
+
+@keyframes sweep { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
 @keyframes pop { 0% { transform: scale(.86); opacity: 0; } 70% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
 @keyframes celebrate { 0%,100% { transform: rotate(-3deg) scale(1); } 50% { transform: rotate(3deg) scale(1.06); } }
@@ -231,3 +245,538 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+@keyframes fly { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-120px) rotate(-15deg); } }
+@keyframes dash-move { from { transform: translateY(-100%) scale(0.5); opacity: 0; } 20% { opacity: 1; } to { transform: translateY(500%) scale(1.5); opacity: 0; } }
+@keyframes hop { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-80px) scale(1.2); } }
+@keyframes pad-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(15px); } }
+@keyframes cloud-move { from { left: 110%; } to { left: -30%; } }
+
+.game-fly { animation: fly 500ms ease-out; }
+.game-dash { animation: dash-move 3s linear infinite; }
+.game-hop { animation: hop 400ms ease-in-out; }
+.game-pad { animation: pad-float 4s ease-in-out infinite; }
+.game-cloud { animation: cloud-move 4s linear infinite; }
+
+/* =========================================================
+   12 MINI-GAMES STYLING
+========================================================= */
+
+.game-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 20px;
+}
+
+.game-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.game-card h1 {
+  margin: 12px 0 20px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.game-card h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 16px 0 8px;
+}
+
+.back-button {
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.back-button:hover {
+  background: var(--secondary);
+  color: var(--foreground);
+}
+
+.main-button {
+  width: 100%;
+  border: 0;
+  border-radius: 16px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 15px;
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--shadow-button);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.main-button:hover {
+  opacity: 0.94;
+  transform: translateY(-1px);
+}
+
+.main-button:active {
+  transform: scale(0.98);
+}
+
+.secondary-button {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--foreground);
+  padding: 14px;
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.secondary-button:hover {
+  background: var(--secondary);
+}
+
+.secondary-button:active {
+  transform: scale(0.98);
+}
+
+.stop-button {
+  width: 100%;
+  border: 0;
+  border-radius: 16px;
+  background: #ef4444;
+  color: white;
+  padding: 16px;
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+  animation: pulse-red 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.info {
+  padding: 12px;
+  background: var(--secondary);
+  color: var(--foreground);
+  border-radius: 14px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.instruction {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 8px 0 16px;
+}
+
+.win {
+  background: oklch(0.95 0.08 145);
+  color: oklch(0.35 0.15 145);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 16px;
+  font-weight: 800;
+  font-size: 15px;
+  animation: pop 280ms ease-out both;
+}
+
+/* 1. LIGHTS OUT */
+.lights-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  background: #18181b;
+  padding: 12px;
+  border-radius: 20px;
+  max-width: 320px;
+  margin: 0 auto 16px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.light {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 10px;
+  background: #27272a;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.light.on {
+  background: #facc15;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.65);
+  transform: scale(0.96);
+}
+
+/* 2. PERFECT STACK */
+.stack-score {
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: var(--muted-foreground);
+}
+
+.stack-area {
+  position: relative;
+  height: 280px;
+  max-width: 300px;
+  margin: auto;
+  overflow: hidden;
+  background: var(--secondary);
+  border-radius: 20px;
+  border-bottom: 6px solid var(--primary);
+}
+
+.stack-block,
+.moving-block {
+  position: absolute;
+  width: 60px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.stack-block {
+  background: var(--foreground);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.moving-block {
+  bottom: 0;
+  background: var(--primary);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+}
+
+/* 3. ONE LINE */
+.line-board {
+  max-width: 300px;
+  margin: 16px auto;
+  color: var(--foreground);
+}
+
+.line-board svg {
+  width: 100%;
+  display: block;
+}
+
+/* 4. STOP AT 100 */
+.big-number {
+  font-family: var(--font-display);
+  font-size: 88px;
+  font-weight: 900;
+  letter-spacing: -4px;
+  margin: 20px 0;
+  line-height: 1;
+  color: var(--foreground);
+}
+
+/* 5. NUMBER PATH */
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.number-tile {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--secondary);
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.number-tile:hover {
+  transform: scale(1.05);
+}
+
+.number-tile.done {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  opacity: 0.85;
+}
+
+.number-tile.selected {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  transform: scale(0.95);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 6. ORBIT TAP */
+.orbit {
+  width: 270px;
+  height: 270px;
+  border: 3px dashed var(--border);
+  border-radius: 50%;
+  margin: 16px auto;
+  position: relative;
+}
+
+.target-dot {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: #ef4444;
+  border-radius: 50%;
+  top: -11px;
+  left: calc(50% - 11px);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+}
+
+.orbit-ball {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--primary);
+  position: absolute;
+  left: calc(50% - 12px);
+  top: calc(50% - 12px);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+/* 7. FLIP FOUR */
+.four-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 260px;
+  margin: 16px auto;
+}
+
+.flip {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 18px;
+  background: var(--secondary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: var(--shadow-soft);
+}
+
+.flip:hover {
+  transform: scale(1.04);
+}
+
+.flip.active {
+  background: var(--primary);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
+}
+
+/* 8. SLIDE TO EXIT */
+.slide-board {
+  height: 90px;
+  background: var(--secondary);
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  margin: 20px 0;
+  border: 1px solid var(--border);
+}
+
+.red-block {
+  position: absolute;
+  top: 18px;
+  width: 54px;
+  height: 54px;
+  background: #ef4444;
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  transition: left 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4);
+}
+
+.exit {
+  position: absolute;
+  right: 10px;
+  top: 18px;
+  height: 54px;
+  width: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--foreground);
+  color: var(--card);
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.move-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.move-buttons button {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.move-buttons button:hover {
+  background: var(--secondary);
+}
+
+/* 9. COLOR WHEEL */
+.color-target {
+  width: 130px;
+  height: 130px;
+  margin: 16px auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  transition: background 0.25s ease;
+}
+
+.color-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.color-buttons button {
+  height: 60px;
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.color-buttons button:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* 11. HIGHER OR LOWER */
+.two-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.two-buttons .main-button {
+  margin-top: 0;
+}
+
+/* 12. PLUS ONE */
+.plus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 280px;
+  margin: 16px auto;
+}
+
+.plus-tile {
+  height: 100px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--secondary);
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.plus-tile:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.plus-tile:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: oklch(0.95 0.08 145);
+  color: oklch(0.35 0.15 145);
+}
+
+.plus-tile small {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted-foreground);
+  margin-top: 2px;
+}
+
+@media (max-width: 520px) {
+  .game-card {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+  .game-card h1 {
+    font-size: 24px;
+  }
+  .big-number {
+    font-size: 72px;
+  }
+  .orbit {
+    width: 240px;
+    height: 240px;
+  }
+}
+
