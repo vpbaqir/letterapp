@@ -426,6 +426,14 @@ export function WriteUnlockApp() {
           onVerify={handleVerifyWriting}
           onAttempt={recordAttempt}
         />
+      ) : screen === "complete" ? (
+        <CompletionScreen
+          letter={currentLetter}
+          stars={state.stars ?? 0}
+          soundEnabled={state.sound}
+          onPlay={() => setScreen("games")}
+          onNextLetter={continueJourney}
+        />
       ) : (
         <div className="mx-auto min-h-screen w-full max-w-6xl px-4 pb-28 pt-5 sm:px-7 lg:px-10 lg:pt-8">
           {screen === "home" && (
@@ -438,45 +446,37 @@ export function WriteUnlockApp() {
               onSelectLetter={(index) => setState((prev) => ({ ...prev, currentIndex: index }))}
             />
           )}
-        {screen === "complete" && (
-          <CompletionScreen
-            letter={currentLetter}
-            stars={state.stars ?? 0}
-            soundEnabled={state.sound}
-            onPlay={() => setScreen("games")}
-            onNextLetter={continueJourney}
-          />
-        )}
-        {screen === "games" && (
-          <GamesScreen state={state} onPlay={setScreen} />
-        )}
-        {screen === "parent" && (
-          <ParentScreen
-            state={state}
-            setState={setState}
-            unlockedGamesCount={unlockedGamesCount}
-            onDone={() => setScreen("home")}
-          />
-        )}
-        {screen === "runner" && <RunnerGame soundEnabled={state.sound} onDone={continueJourney} />}
-        {screen === "cloud-flyer" && <CloudFlyerGame soundEnabled={state.sound} onDone={continueJourney} />}
-        {screen === "space-dash" && <SpaceDashGame soundEnabled={state.sound} onDone={continueJourney} />}
-        {screen === "ocean-hop" && <OceanHopGame soundEnabled={state.sound} onDone={continueJourney} />}
-        {screen === "number-merge" && <NumberMergeGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "games" && (
+            <GamesScreen state={state} onPlay={setScreen} />
+          )}
+          {screen === "parent" && (
+            <ParentScreen
+              state={state}
+              setState={setState}
+              unlockedGamesCount={unlockedGamesCount}
+              onDone={() => setScreen("home")}
+            />
+          )}
 
-        {/* 12 Mini-Games */}
-        {screen === "lights-out" && <LightsOut back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "perfect-stack" && <PerfectStack back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "one-line" && <OneLine back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "stop-at-100" && <StopAt100 back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "number-path" && <NumberPath back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "orbit-tap" && <OrbitTap back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "flip-four" && <FlipFour back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "slide-to-exit" && <SlideToExit back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "color-wheel" && <ColorWheel back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "make-ten" && <MakeTen back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "higher-lower" && <HigherLower back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "plus-one" && <PlusOne back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "runner" && <RunnerGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "cloud-flyer" && <CloudFlyerGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "space-dash" && <SpaceDashGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "ocean-hop" && <OceanHopGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "number-merge" && <NumberMergeGame soundEnabled={state.sound} onDone={continueJourney} />}
+
+          {/* 12 Mini-Games */}
+          {screen === "lights-out" && <LightsOut back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "perfect-stack" && <PerfectStack back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "one-line" && <OneLine back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "stop-at-100" && <StopAt100 back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "number-path" && <NumberPath back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "orbit-tap" && <OrbitTap back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "flip-four" && <FlipFour back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "slide-to-exit" && <SlideToExit back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "color-wheel" && <ColorWheel back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "make-ten" && <MakeTen back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "higher-lower" && <HigherLower back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "plus-one" && <PlusOne back={() => setScreen("games")} soundEnabled={state.sound} />}
         </div>
       )}
 
@@ -1197,6 +1197,22 @@ function WritingScreen({
   );
 }
 
+function DaisyFlower({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={cn("size-5 sm:size-6", className)}>
+      <circle cx="12" cy="7" r="3.2" fill="#FFFFFF" />
+      <circle cx="12" cy="17" r="3.2" fill="#FFFFFF" />
+      <circle cx="7" cy="12" r="3.2" fill="#FFFFFF" />
+      <circle cx="17" cy="12" r="3.2" fill="#FFFFFF" />
+      <circle cx="8.5" cy="8.5" r="3.2" fill="#FFFFFF" />
+      <circle cx="15.5" cy="8.5" r="3.2" fill="#FFFFFF" />
+      <circle cx="8.5" cy="15.5" r="3.2" fill="#FFFFFF" />
+      <circle cx="15.5" cy="15.5" r="3.2" fill="#FFFFFF" />
+      <circle cx="12" cy="12" r="3.4" fill="#FACC15" />
+    </svg>
+  );
+}
+
 function CompletionScreen({
   letter,
   stars,
@@ -1213,38 +1229,171 @@ function CompletionScreen({
   useEffect(() => {
     if (soundEnabled) playSound("win");
   }, [soundEnabled]);
+
   return (
-    <section className="mx-auto flex min-h-[85vh] max-w-3xl flex-col items-center justify-center text-center">
-      <div className="relative grid size-32 place-items-center rounded-full bg-sun-soft text-6xl font-bold text-sun-foreground shadow-glow animate-celebrate">
-        {letter}
-        <Check className="absolute -right-1 top-1 size-9 rounded-full bg-mint p-1.5 text-mint-foreground" />
+    <section className="relative min-h-screen w-full bg-[#FAF7F0] flex flex-col items-center justify-center px-4 py-6 overflow-hidden select-none">
+      {/* Scenic Background Clouds */}
+      <div className="pointer-events-none absolute left-[-2%] top-[6%] w-36 sm:w-56 text-white/90 select-none z-0">
+        <svg viewBox="0 0 200 110" fill="currentColor">
+          <path d="M40 85 C20 85 8 72 8 55 C8 38 22 25 38 25 C45 10 65 2 85 2 C110 2 130 15 138 34 C145 30 155 28 165 28 C185 28 198 42 198 60 C198 75 186 85 170 85 Z" />
+        </svg>
       </div>
-      <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 font-extrabold text-sun-foreground text-sm shadow-soft">
-        <Star className="size-4 fill-sun text-sun" />
-        <span>You now have {stars} Stars to unlock games!</span>
+
+      <div className="pointer-events-none absolute right-[-2%] top-[8%] w-40 sm:w-64 text-white/90 select-none z-0">
+        <svg viewBox="0 0 200 110" fill="currentColor">
+          <path d="M40 85 C20 85 8 72 8 55 C8 38 22 25 38 25 C45 10 65 2 85 2 C110 2 130 15 138 34 C145 30 155 28 165 28 C185 28 198 42 198 60 C198 75 186 85 170 85 Z" />
+        </svg>
       </div>
-      <p className="mt-4 text-sm font-bold text-primary">LETTER COMPLETE</p>
-      <h1 className="mt-1 font-display text-4xl font-bold sm:text-5xl">Nicely written!</h1>
-      <p className="mt-2 max-w-md font-semibold text-muted-foreground">
-        Your writing unlocked new games in the Game Garden. Keep collecting stars!
-      </p>
-      <div className="mt-8 w-full overflow-hidden rounded-[2rem] bg-card text-left shadow-card">
-        <img src={runnerImage} width={1200} height={900} alt="Game garden" className="aspect-[2/1] w-full object-cover" />
-        <div className="flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-          <div>
-            <p className="flex items-center gap-2 text-sm font-bold text-primary">
-              <Sparkles className="size-4" /> REWARD UNLOCKED
-            </p>
-            <h2 className="mt-1 font-display text-2xl font-bold">Game Garden</h2>
+
+      {/* Floating Stars */}
+      <div className="pointer-events-none absolute left-[7%] top-[30%] z-0">
+        <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+          <path
+            d="M17 2.8c.6 0 1.2.4 1.4 1l3.3 7.2 7.7 1.1c.7.1 1.2.7 1.2 1.3 0 .3-.1.7-.4.9l-5.7 5.4 1.5 7.7c.1.7-.2 1.3-.8 1.6-.6.3-1.2.2-1.7-.1L17 25.1l-6.9 3.8c-.5.3-1.2.4-1.7.1-.6-.3-.9-1-.8-1.6l1.5-7.7-5.7-5.4c-.3-.2-.4-.6-.4-.9 0-.6.5-1.2 1.2-1.3l7.7-1.1 3.3-7.2c.2-.6.8-1 1.5-1z"
+            fill="#FCD34D"
+            stroke="#F59E0B"
+            strokeWidth="0.8"
+          />
+        </svg>
+      </div>
+
+      <div className="pointer-events-none absolute right-[9%] top-[22%] z-0">
+        <svg width="26" height="26" viewBox="0 0 34 34" fill="none">
+          <path
+            d="M17 2.8c.6 0 1.2.4 1.4 1l3.3 7.2 7.7 1.1c.7.1 1.2.7 1.2 1.3 0 .3-.1.7-.4.9l-5.7 5.4 1.5 7.7c.1.7-.2 1.3-.8 1.6-.6.3-1.2.2-1.7-.1L17 25.1l-6.9 3.8c-.5.3-1.2.4-1.7.1-.6-.3-.9-1-.8-1.6l1.5-7.7-5.7-5.4c-.3-.2-.4-.6-.4-.9 0-.6.5-1.2 1.2-1.3l7.7-1.1 3.3-7.2c.2-.6.8-1 1.5-1z"
+            fill="#FCD34D"
+            stroke="#F59E0B"
+            strokeWidth="0.8"
+          />
+        </svg>
+      </div>
+
+      {/* Floating Confetti Dots */}
+      <div className="absolute left-[6%] top-[20%] size-3 rounded-full bg-[#10B981]/70 pointer-events-none z-0" />
+      <div className="absolute left-[11%] top-[54%] size-2.5 rounded-full bg-[#38BDF8]/75 pointer-events-none z-0" />
+      <div className="absolute right-[8%] top-[42%] size-3 rounded-full bg-[#38BDF8]/80 pointer-events-none z-0" />
+      <div className="absolute right-[14%] top-[17%] size-2.5 rounded-full bg-[#10B981]/70 pointer-events-none z-0" />
+
+      {/* Bottom Rolling Green Hills, Corner Foliage, and Daisies */}
+      <div className="absolute inset-x-0 bottom-0 pointer-events-none select-none z-0 overflow-hidden h-36 sm:h-48 md:h-56">
+        {/* Back rolling hill */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-28 sm:h-36 md:h-44 fill-[#B9F5D8]">
+          <path d="M0,90 Q320,15 720,80 T1440,50 L1440,220 L0,220 Z" />
+        </svg>
+        {/* Front rolling hill */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-20 sm:h-28 md:h-34 fill-[#86EFAC]">
+          <path d="M0,60 Q420,130 860,50 T1440,70 L1440,220 L0,220 Z" />
+        </svg>
+        {/* Front ground wave */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-12 sm:h-18 fill-[#4ADE80]/30">
+          <path d="M0,40 Q500,90 1000,30 T1440,50 L1440,220 L0,220 Z" />
+        </svg>
+
+        {/* Daisies on grass */}
+        <div className="absolute left-[14%] bottom-4 sm:bottom-6">
+          <DaisyFlower className="size-5 sm:size-6" />
+        </div>
+        <div className="absolute left-[30%] bottom-2 sm:bottom-4">
+          <DaisyFlower className="size-4 sm:size-5" />
+        </div>
+        <div className="absolute right-[16%] bottom-4 sm:bottom-6">
+          <DaisyFlower className="size-5 sm:size-6" />
+        </div>
+        <div className="absolute right-[34%] bottom-2 sm:bottom-4">
+          <DaisyFlower className="size-4 sm:size-5" />
+        </div>
+
+        {/* Left corner foliage / bushes */}
+        <div className="absolute left-0 bottom-0 translate-y-3 -translate-x-1 sm:translate-x-2">
+          <svg width="100" height="110" viewBox="0 0 100 110" fill="none" className="scale-90 sm:scale-110 origin-bottom-left">
+            <ellipse cx="28" cy="74" rx="18" ry="36" transform="rotate(-24 28 74)" fill="#10B981" />
+            <ellipse cx="54" cy="58" rx="20" ry="42" transform="rotate(4 54 58)" fill="#059669" />
+            <ellipse cx="80" cy="76" rx="16" ry="32" transform="rotate(28 80 76)" fill="#10B981" />
+          </svg>
+        </div>
+
+        {/* Right corner foliage / bushes */}
+        <div className="absolute right-0 bottom-0 translate-y-3 translate-x-1 sm:-translate-x-2">
+          <svg width="100" height="110" viewBox="0 0 100 110" fill="none" className="scale-90 sm:scale-110 origin-bottom-right">
+            <ellipse cx="72" cy="74" rx="18" ry="36" transform="rotate(24 72 74)" fill="#10B981" />
+            <ellipse cx="46" cy="58" rx="20" ry="42" transform="rotate(-4 46 58)" fill="#059669" />
+            <ellipse cx="20" cy="76" rx="16" ry="32" transform="rotate(-28 20 76)" fill="#10B981" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Main Celebration Card / Content */}
+      <div className="relative z-10 w-full max-w-[340px] sm:max-w-[480px] md:max-w-[580px] bg-white/95 sm:bg-white rounded-[32px] sm:rounded-[44px] p-5 sm:p-8 md:p-9 shadow-[0_20px_50px_rgba(0,0,0,0.06),0_2px_10px_rgba(0,0,0,0.02)] border border-white flex flex-col items-center text-center my-auto animate-pop">
+        {/* Golden Coin with Completed Letter & Radiating Burst Rays */}
+        <div className="relative flex items-center justify-center">
+          {/* Confetti Rays */}
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center select-none">
+            {/* Top-left yellow ray */}
+            <span className="absolute -top-3.5 -left-2.5 sm:-top-4 sm:-left-3 w-1.5 h-3.5 sm:w-2 sm:h-4.5 rounded-full bg-[#FACC15] -rotate-[35deg]" />
+            {/* Top-right cyan ray */}
+            <span className="absolute -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-1.5 h-3.5 sm:w-2 sm:h-4.5 rounded-full bg-[#38BDF8] rotate-[35deg]" />
+            {/* Right yellow ray */}
+            <span className="absolute top-1/2 -right-4 sm:-right-5 -translate-y-1/2 w-3.5 h-1.5 sm:w-4.5 sm:h-2 rounded-full bg-[#FACC15]" />
+            {/* Left cyan ray */}
+            <span className="absolute top-1/2 -left-4 sm:-left-5 -translate-y-1/2 w-3.5 h-1.5 sm:w-4.5 sm:h-2 rounded-full bg-[#38BDF8]" />
+            {/* Bottom-left green ray */}
+            <span className="absolute -bottom-2 -left-1 sm:-bottom-2.5 sm:-left-1.5 w-1.5 h-3.5 sm:w-2 sm:h-4.5 rounded-full bg-[#4ADE80] -rotate-[135deg]" />
+            {/* Bottom-right yellow ray */}
+            <span className="absolute -bottom-2 -right-1 sm:-bottom-2.5 sm:-right-1.5 w-1.5 h-3.5 sm:w-2 sm:h-4.5 rounded-full bg-[#FACC15] rotate-[135deg]" />
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button variant="outline" className="h-13 rounded-2xl px-6 font-bold" onClick={onNextLetter}>
-              <Pencil /> Next letter
-            </Button>
-            <Button className="h-13 rounded-2xl px-7 font-bold shadow-button" onClick={onPlay}>
-              <Gamepad2 className="fill-current" /> Go to games
-            </Button>
+
+          {/* Main Golden Coin Badge */}
+          <div className="relative size-16 sm:size-20 rounded-full bg-gradient-to-b from-[#FEF08A] to-[#FDE047] border-[4px] sm:border-[5px] border-[#FCD34D] shadow-[0_6px_20px_rgba(245,158,11,0.28)] flex items-center justify-center select-none">
+            <span className="font-display font-black text-3xl sm:text-4xl text-[#78350F] leading-none">
+              {letter}
+            </span>
           </div>
+        </div>
+
+        {/* Heading: "Great job!" */}
+        <h1 className="font-display font-black text-3xl sm:text-4xl md:text-[2.6rem] text-[#0F172A] tracking-tight mt-3 sm:mt-3.5 select-none">
+          Great job!
+        </h1>
+
+        {/* Badge: "Letter complete" */}
+        <div className="mt-2 sm:mt-2.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#EBF3FE] border border-[#BFDBFE] px-3.5 sm:px-4 py-1 sm:py-1.5 shadow-xs select-none">
+          <div className="size-4 sm:size-4.5 rounded-full bg-[#007AFF] flex items-center justify-center text-white shrink-0">
+            <Check className="size-2.5 sm:size-3 stroke-[3.5]" />
+          </div>
+          <span className="font-black text-xs sm:text-sm text-[#007AFF]">Letter complete</span>
+        </div>
+
+        {/* Center Feature Card: Runner Game Reward Image */}
+        <div className="mt-4 sm:mt-5.5 w-full max-w-[460px] aspect-[16/10] rounded-[22px] sm:rounded-[28px] overflow-hidden border-[3px] sm:border-4 border-white shadow-[0_16px_40px_rgba(0,0,0,0.08),0_2px_8px_rgba(0,0,0,0.03)] bg-white select-none">
+          <img
+            src={runnerImage}
+            alt="Game reward"
+            className="size-full object-cover"
+          />
+        </div>
+
+        {/* Responsive Action Buttons:
+            - Mobile: Stacked vertically ("Next letter" on top, "Go to games" on bottom)
+            - Desktop: Side-by-side
+        */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-3.5 w-full max-w-[460px] mt-4.5 sm:mt-6">
+          <button
+            type="button"
+            onClick={onNextLetter}
+            className="w-full sm:w-1/2 h-12 sm:h-13 px-6 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 text-[#1E293B] font-black text-sm sm:text-base shadow-[0_4px_14px_rgba(0,0,0,0.04)] flex items-center justify-center gap-2.5 active:scale-95 transition-all cursor-pointer select-none"
+          >
+            <Pencil className="size-4.5 text-[#1E293B] stroke-[2.5]" />
+            <span>Next letter</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onPlay}
+            className="w-full sm:w-1/2 h-12 sm:h-13 px-6 rounded-full bg-[#007AFF] hover:bg-[#0066EE] text-white font-black text-sm sm:text-base shadow-[0_8px_24px_rgba(0,122,255,0.32)] flex items-center justify-center gap-2.5 active:scale-95 transition-all cursor-pointer select-none"
+          >
+            <Gamepad2 className="size-5 text-white" />
+            <span>Go to games</span>
+          </button>
         </div>
       </div>
     </section>
