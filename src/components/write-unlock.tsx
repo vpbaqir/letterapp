@@ -158,28 +158,28 @@ export type AppGame = {
 };
 
 export const ALL_GAMES: AppGame[] = [
-  // 3 Stars (Beginner)
-  { id: "runner", name: "Endless Runner", icon: "🦊", desc: "Run, jump, and collect shiny stars!", reqStars: 3, category: "action" },
-  { id: "perfect-stack", name: "Perfect Stack", icon: "🧱", desc: "Stack the moving blocks to the sky.", reqStars: 3, category: "action" },
-  { id: "stop-at-100", name: "Stop at 100", icon: "💯", desc: "Test your timing to stop right on 100!", reqStars: 3, category: "action" },
-  { id: "lights-out", name: "Lights Out", icon: "💡", desc: "Turn off every light tile on the grid.", reqStars: 3, category: "puzzle" },
-  { id: "color-wheel", name: "Color Wheel", icon: "🎨", desc: "Tap matching colors as fast as you can.", reqStars: 3, category: "puzzle" },
-  { id: "number-merge", name: "Number Merge 2048", icon: "🔢", desc: "Slide & combine numbers to build up to 2048!", reqStars: 3, category: "numbers" },
+  // Novice Milestones (15 to 140 Stars)
+  { id: "runner", name: "Endless Runner", icon: "🦊", desc: "Run, jump, and collect shiny stars!", reqStars: 15, category: "action" },
+  { id: "color-wheel", name: "Color Wheel", icon: "🎨", desc: "Tap matching colors as fast as you can.", reqStars: 30, category: "puzzle" },
+  { id: "stop-at-100", name: "Stop at 100", icon: "💯", desc: "Test your timing to stop right on 100!", reqStars: 50, category: "action" },
+  { id: "lights-out", name: "Lights Out", icon: "💡", desc: "Turn off every light tile on the grid.", reqStars: 75, category: "puzzle" },
+  { id: "perfect-stack", name: "Perfect Stack", icon: "🧱", desc: "Stack the moving blocks to the sky.", reqStars: 105, category: "action" },
+  { id: "number-merge", name: "Number Merge 2048", icon: "🔢", desc: "Slide & combine numbers to build up to 2048!", reqStars: 140, category: "numbers" },
 
-  // 8 Stars (Intermediate)
-  { id: "orbit-tap", name: "Orbit Tap", icon: "🎯", desc: "Tap right when the orbiting ball hits the target.", reqStars: 8, category: "action" },
-  { id: "cloud-flyer", name: "Cloud Flyer", icon: "☁️", desc: "Float high through the clouds and dodge thunder.", reqStars: 8, category: "action" },
-  { id: "one-line", name: "One Line", icon: "〰️", desc: "Connect every dot in a continuous loop.", reqStars: 8, category: "puzzle" },
-  { id: "flip-four", name: "Flip Four", icon: "🔲", desc: "Flip tiles until all 4 colors match.", reqStars: 8, category: "puzzle" },
-  { id: "number-path", name: "Number Path", icon: "🔢", desc: "Tap shuffled numbers in order from 1 to 16.", reqStars: 8, category: "numbers" },
-  { id: "make-ten", name: "Make Ten", icon: "🔟", desc: "Find combinations that add up to 10.", reqStars: 8, category: "numbers" },
+  // Explorer Milestones (180 to 455 Stars)
+  { id: "cloud-flyer", name: "Cloud Flyer", icon: "☁️", desc: "Float high through the clouds and dodge thunder.", reqStars: 180, category: "action" },
+  { id: "orbit-tap", name: "Orbit Tap", icon: "🎯", desc: "Tap right when the orbiting ball hits the target.", reqStars: 225, category: "action" },
+  { id: "one-line", name: "One Line", icon: "〰️", desc: "Connect every dot in a continuous loop.", reqStars: 275, category: "puzzle" },
+  { id: "number-path", name: "Number Path", icon: "🔢", desc: "Tap shuffled numbers in order from 1 to 16.", reqStars: 330, category: "numbers" },
+  { id: "flip-four", name: "Flip Four", icon: "🔲", desc: "Flip tiles until all 4 colors match.", reqStars: 390, category: "puzzle" },
+  { id: "make-ten", name: "Make Ten", icon: "🔟", desc: "Find combinations that add up to 10.", reqStars: 455, category: "numbers" },
 
-  // 15 Stars (Advanced)
-  { id: "higher-lower", name: "Higher or Lower", icon: "⬆️", desc: "Guess if the next secret number is higher or lower.", reqStars: 15, category: "numbers" },
-  { id: "plus-one", name: "Plus One", icon: "➕", desc: "Tap tiles to add one until every number is 5.", reqStars: 15, category: "numbers" },
-  { id: "space-dash", name: "Space Dash", icon: "🚀", desc: "Rocket through space and blast asteroids.", reqStars: 15, category: "action" },
-  { id: "ocean-hop", name: "Ocean Hop", icon: "🐠", desc: "Leap across lily pads with the cheerful fish.", reqStars: 15, category: "action" },
-  { id: "slide-to-exit", name: "Slide to Exit", icon: "🚪", desc: "Slide the red block to escape through the door.", reqStars: 15, category: "puzzle" },
+  // Master Milestones (525 to 850 Stars)
+  { id: "ocean-hop", name: "Ocean Hop", icon: "🐠", desc: "Leap across lily pads with the cheerful fish.", reqStars: 525, category: "action" },
+  { id: "higher-lower", name: "Higher or Lower", icon: "⬆️", desc: "Guess if the next secret number is higher or lower.", reqStars: 600, category: "numbers" },
+  { id: "plus-one", name: "Plus One", icon: "➕", desc: "Tap tiles to add one until every number is 5.", reqStars: 680, category: "numbers" },
+  { id: "slide-to-exit", name: "Slide to Exit", icon: "🚪", desc: "Slide the red block to escape through the door.", reqStars: 765, category: "puzzle" },
+  { id: "space-dash", name: "Space Dash", icon: "🚀", desc: "Rocket through space and blast asteroids.", reqStars: 850, category: "action" },
 ];
 
 type AppState = {
@@ -319,7 +319,7 @@ export function WriteUnlockApp() {
           completed: isComplete
             ? Array.from(new Set([...previous.completed, currentLetter]))
             : previous.completed,
-          runnerUnlocked: isComplete || previous.runnerUnlocked || nextStars >= 3,
+          runnerUnlocked: isComplete || previous.runnerUnlocked || nextStars >= 15,
           totalWritten: previous.totalWritten + 1,
           usageStats: {
             ...(previous.usageStats ?? {}),
@@ -379,7 +379,7 @@ export function WriteUnlockApp() {
         completed: isComplete
           ? Array.from(new Set([...previous.completed, currentLetter]))
           : previous.completed,
-        runnerUnlocked: isComplete || previous.runnerUnlocked || nextStars >= 3,
+        runnerUnlocked: isComplete || previous.runnerUnlocked || nextStars >= 15,
         totalWritten: previous.totalWritten + 1,
         usageStats: {
           ...(previous.usageStats ?? {}),
@@ -402,77 +402,83 @@ export function WriteUnlockApp() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto min-h-screen w-full max-w-6xl px-4 pb-28 pt-5 sm:px-7 lg:px-10 lg:pt-8">
-        {screen === "home" && (
-          <ChildHome
-            state={state}
-            currentLetter={currentLetter}
-            target={currentTarget}
-            unlockedGamesCount={unlockedGamesCount}
-            onNavigate={setScreen}
-            onSelectLetter={(index) => setState((prev) => ({ ...prev, currentIndex: index }))}
-          />
-        )}
-        {screen === "write" && (
-          <WritingScreen
-            letter={currentLetter}
-            progress={currentProgress}
-            target={currentTarget}
-            guide={state.guide}
-            soundEnabled={state.sound}
-            language={state.language}
-            childName={state.childName}
-            stars={state.stars ?? 0}
-            parentVerificationEnabled={state.parentVerificationEnabled ?? true}
-            onToggleParentVerify={(enabled) =>
-              setState((prev) => ({ ...prev, parentVerificationEnabled: enabled }))
-            }
-            onBack={() => setScreen("home")}
-            onAccepted={acceptWriting}
-            onVerify={handleVerifyWriting}
-            onAttempt={recordAttempt}
-          />
-        )}
-        {screen === "complete" && (
-          <CompletionScreen
-            letter={currentLetter}
-            stars={state.stars ?? 0}
-            soundEnabled={state.sound}
-            onPlay={() => setScreen("games")}
-            onNextLetter={continueJourney}
-          />
-        )}
-        {screen === "games" && (
-          <GamesScreen state={state} onPlay={setScreen} />
-        )}
-        {screen === "parent" && (
-          <ParentScreen
-            state={state}
-            setState={setState}
-            unlockedGamesCount={unlockedGamesCount}
-            onDone={() => setScreen("home")}
-          />
-        )}
-        {screen === "runner" && <RunnerGame soundEnabled={state.sound} onDone={continueJourney} />}
-        {screen === "cloud-flyer" && <CloudFlyerGame soundEnabled={state.sound} onDone={continueJourney} />}
-        {screen === "space-dash" && <SpaceDashGame soundEnabled={state.sound} onDone={continueJourney} />}
-        {screen === "ocean-hop" && <OceanHopGame soundEnabled={state.sound} onDone={continueJourney} />}
-        {screen === "number-merge" && <NumberMergeGame soundEnabled={state.sound} onDone={continueJourney} />}
+      {screen === "write" ? (
+        <WritingScreen
+          letter={currentLetter}
+          progress={currentProgress}
+          target={currentTarget}
+          guide={state.guide}
+          soundEnabled={state.sound}
+          language={state.language}
+          childName={state.childName}
+          stars={state.stars ?? 0}
+          parentVerificationEnabled={state.parentVerificationEnabled ?? true}
+          onToggleParentVerify={(enabled) =>
+            setState((prev) => ({ ...prev, parentVerificationEnabled: enabled }))
+          }
+          onToggleGuide={() => {
+            const modes: GuideMode[] = ["guided", "semi", "free"];
+            const next = modes[(modes.indexOf(state.guide) + 1) % modes.length] ?? "guided";
+            setState((prev) => ({ ...prev, guide: next }));
+          }}
+          onBack={() => setScreen("home")}
+          onAccepted={acceptWriting}
+          onVerify={handleVerifyWriting}
+          onAttempt={recordAttempt}
+        />
+      ) : screen === "complete" ? (
+        <CompletionScreen
+          letter={currentLetter}
+          stars={state.stars ?? 0}
+          soundEnabled={state.sound}
+          onPlay={() => setScreen("games")}
+          onNextLetter={continueJourney}
+        />
+      ) : (
+        <div className="mx-auto min-h-screen w-full max-w-6xl px-4 pb-28 pt-5 sm:px-7 lg:px-10 lg:pt-8">
+          {screen === "home" && (
+            <ChildHome
+              state={state}
+              currentLetter={currentLetter}
+              target={currentTarget}
+              unlockedGamesCount={unlockedGamesCount}
+              onNavigate={setScreen}
+              onSelectLetter={(index) => setState((prev) => ({ ...prev, currentIndex: index }))}
+            />
+          )}
+          {screen === "games" && (
+            <GamesScreen state={state} onPlay={setScreen} />
+          )}
+          {screen === "parent" && (
+            <ParentScreen
+              state={state}
+              setState={setState}
+              unlockedGamesCount={unlockedGamesCount}
+              onDone={() => setScreen("home")}
+            />
+          )}
 
-        {/* 12 Mini-Games */}
-        {screen === "lights-out" && <LightsOut back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "perfect-stack" && <PerfectStack back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "one-line" && <OneLine back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "stop-at-100" && <StopAt100 back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "number-path" && <NumberPath back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "orbit-tap" && <OrbitTap back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "flip-four" && <FlipFour back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "slide-to-exit" && <SlideToExit back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "color-wheel" && <ColorWheel back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "make-ten" && <MakeTen back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "higher-lower" && <HigherLower back={() => setScreen("games")} soundEnabled={state.sound} />}
-        {screen === "plus-one" && <PlusOne back={() => setScreen("games")} soundEnabled={state.sound} />}
-      </div>
+          {screen === "runner" && <RunnerGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "cloud-flyer" && <CloudFlyerGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "space-dash" && <SpaceDashGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "ocean-hop" && <OceanHopGame soundEnabled={state.sound} onDone={continueJourney} />}
+          {screen === "number-merge" && <NumberMergeGame soundEnabled={state.sound} onDone={continueJourney} />}
+
+          {/* 12 Mini-Games */}
+          {screen === "lights-out" && <LightsOut back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "perfect-stack" && <PerfectStack back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "one-line" && <OneLine back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "stop-at-100" && <StopAt100 back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "number-path" && <NumberPath back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "orbit-tap" && <OrbitTap back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "flip-four" && <FlipFour back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "slide-to-exit" && <SlideToExit back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "color-wheel" && <ColorWheel back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "make-ten" && <MakeTen back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "higher-lower" && <HigherLower back={() => setScreen("games")} soundEnabled={state.sound} />}
+          {screen === "plus-one" && <PlusOne back={() => setScreen("games")} soundEnabled={state.sound} />}
+        </div>
+      )}
 
       {(screen === "home" || screen === "games") && (
         <ChildNav screen={screen} onNavigate={setScreen} />
@@ -614,6 +620,7 @@ function WritingScreen({
   stars,
   parentVerificationEnabled,
   onToggleParentVerify,
+  onToggleGuide,
   onBack,
   onAccepted,
   onVerify,
@@ -629,6 +636,7 @@ function WritingScreen({
   stars: number;
   parentVerificationEnabled: boolean;
   onToggleParentVerify: (enabled: boolean) => void;
+  onToggleGuide?: () => void;
   onBack: () => void;
   onAccepted: () => void;
   onVerify: (isTrue: boolean) => { starsChange: number; isComplete: boolean };
@@ -677,10 +685,10 @@ function WritingScreen({
     context.scale(ratio, ratio);
 
     const styleInk = getComputedStyle(document.documentElement).getPropertyValue("--canvas-ink").trim();
-    const color = styleInk || "#1e293b";
+    const color = styleInk || "#1D4ED8";
     context.strokeStyle = color;
     context.fillStyle = color;
-    context.lineWidth = Math.max(9, rect.width / 38);
+    context.lineWidth = Math.max(12, rect.width / 26);
     context.lineCap = "round";
     context.lineJoin = "round";
 
@@ -759,7 +767,11 @@ function WritingScreen({
   };
 
   const submit = () => {
-    if (!strokesRef.current.length) return;
+    if (!strokesRef.current.length) {
+      setFeedbackBanner({ text: `Trace or write ${letter} first! ✏️`, type: "nice" });
+      window.setTimeout(() => setFeedbackBanner(null), 1800);
+      return;
+    }
 
     if (parentVerificationEnabled) {
       try {
@@ -808,224 +820,396 @@ function WritingScreen({
   };
 
   return (
-    <section className="mx-auto max-w-3xl">
-      <header className="flex items-center justify-between gap-3">
-        <Button variant="ghost" size="icon" className="size-11 rounded-2xl" onClick={onBack} aria-label="Back home">
-          <ArrowLeft />
-        </Button>
-        <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-wider text-primary">Write the letter</p>
-          <p className="font-display text-4xl font-bold">{letter}</p>
+    <section className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#FAF7F0] select-none text-foreground">
+      {/* Background Atmosphere - Clouds, Stars, Bubbles, Rolling Hills */}
+      {/* Top right fluffy cloud */}
+      <div className="absolute -top-3 right-0 sm:right-6 md:right-16 pointer-events-none z-0">
+        <svg width="240" height="150" viewBox="0 0 240 150" fill="none" className="opacity-90 scale-90 sm:scale-100">
+          <path
+            d="M60 120h120c24.85 0 45-20.15 45-45 0-21.78-15.48-39.95-36.14-43.98C184.9 13.56 161.42 0 133.5 0 108.6 0 87.2 10.82 73.12 28.1 69.04 26.75 64.63 26 60 26 33.49 26 12 47.49 12 74c0 4.2.55 8.27 1.58 12.14C5.7 91.24 0 99.95 0 110c0 16.57 13.43 30 30 30h30z"
+            fill="url(#cloudGradR)"
+          />
+          <defs>
+            <linearGradient id="cloudGradR" x1="120" y1="0" x2="120" y2="140" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#E2EFFF" stopOpacity="0.95" />
+              <stop offset="1" stopColor="#C8E1FE" stopOpacity="0.8" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      {/* Mid left fluffy cloud */}
+      <div className="absolute top-28 -left-6 sm:left-4 md:left-12 pointer-events-none z-0">
+        <svg width="190" height="120" viewBox="0 0 190 120" fill="none" className="opacity-85 scale-85 sm:scale-100">
+          <path
+            d="M45 95h95c19.33 0 35-15.67 35-35 0-16.8-11.83-30.82-27.67-34.12C144.18 10.95 125.75 0 104 0c-19.38 0-36.08 8.7-47.05 22.37C53.77 21.2 50.45 20.6 47 20.6 26.57 20.6 10 37.17 10 57.6c0 3.3.43 6.48 1.23 9.5C4.46 71.05 0 77.92 0 85.8 0 98.8 10.5 109.3 23.5 109.3H45z"
+            fill="url(#cloudGradL)"
+          />
+          <defs>
+            <linearGradient id="cloudGradL" x1="95" y1="0" x2="95" y2="110" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#E5F1FF" stopOpacity="0.95" />
+              <stop offset="1" stopColor="#D0E5FE" stopOpacity="0.75" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      {/* Yellow 5-point Stars */}
+      <div className="absolute left-[7%] sm:left-[11%] top-[32%] sm:top-[33%] pointer-events-none z-0">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+          <path
+            d="M17 2.8c.6 0 1.2.4 1.4 1l3.3 7.2 7.7 1.1c.7.1 1.2.7 1.2 1.3 0 .3-.1.7-.4.9l-5.7 5.4 1.5 7.7c.1.7-.2 1.3-.8 1.6-.6.3-1.2.2-1.7-.1L17 25.1l-6.9 3.8c-.5.3-1.2.4-1.7.1-.6-.3-.9-1-.8-1.6l1.5-7.7-5.7-5.4c-.3-.2-.4-.6-.4-.9 0-.6.5-1.2 1.2-1.3l7.7-1.1 3.3-7.2c.2-.6.8-1 1.5-1z"
+            fill="#FCD34D"
+            stroke="#F59E0B"
+            strokeWidth="0.8"
+          />
+        </svg>
+      </div>
+
+      <div className="absolute right-[10%] sm:right-[15%] top-[48%] sm:top-[49%] pointer-events-none z-0">
+        <svg width="32" height="32" viewBox="0 0 34 34" fill="none">
+          <path
+            d="M17 2.8c.6 0 1.2.4 1.4 1l3.3 7.2 7.7 1.1c.7.1 1.2.7 1.2 1.3 0 .3-.1.7-.4.9l-5.7 5.4 1.5 7.7c.1.7-.2 1.3-.8 1.6-.6.3-1.2.2-1.7-.1L17 25.1l-6.9 3.8c-.5.3-1.2.4-1.7.1-.6-.3-.9-1-.8-1.6l1.5-7.7-5.7-5.4c-.3-.2-.4-.6-.4-.9 0-.6.5-1.2 1.2-1.3l7.7-1.1 3.3-7.2c.2-.6.8-1 1.5-1z"
+            fill="#FCD34D"
+            stroke="#F59E0B"
+            strokeWidth="0.8"
+          />
+        </svg>
+      </div>
+
+      {/* Floating soft blue dots / bubbles */}
+      <div className="absolute left-[9%] top-[26%] size-3.5 rounded-full bg-[#60A5FA]/80 pointer-events-none z-0" />
+      <div className="absolute left-[10%] top-[62%] size-3 rounded-full bg-[#60A5FA]/70 pointer-events-none z-0" />
+      <div className="absolute right-[13%] top-[41%] size-2.5 rounded-full bg-[#60A5FA]/75 pointer-events-none z-0" />
+      <div className="absolute right-[5%] top-[26%] size-2.5 rounded-full bg-[#60A5FA]/75 pointer-events-none z-0" />
+
+      {/* Bottom Rolling Green Hills & Corner Foliage */}
+      <div className="absolute inset-x-0 bottom-0 pointer-events-none select-none z-0 overflow-hidden h-36 sm:h-48 md:h-56">
+        {/* Back rolling hill */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-28 sm:h-36 md:h-44 fill-[#B9F5D8]">
+          <path d="M0,90 Q320,15 720,80 T1440,50 L1440,220 L0,220 Z" />
+        </svg>
+        {/* Front rolling hill */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-20 sm:h-28 md:h-34 fill-[#86EFAC]">
+          <path d="M0,60 Q420,130 860,50 T1440,70 L1440,220 L0,220 Z" />
+        </svg>
+        {/* Front ground wave */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-12 sm:h-18 fill-[#4ADE80]/30">
+          <path d="M0,40 Q500,90 1000,30 T1440,50 L1440,220 L0,220 Z" />
+        </svg>
+
+        {/* Left corner foliage / bushes */}
+        <div className="absolute left-0 bottom-0 translate-y-3 -translate-x-1 sm:translate-x-2">
+          <svg width="100" height="110" viewBox="0 0 100 110" fill="none" className="scale-90 sm:scale-110 origin-bottom-left">
+            <ellipse cx="28" cy="74" rx="18" ry="36" transform="rotate(-24 28 74)" fill="#10B981" />
+            <ellipse cx="54" cy="58" rx="20" ry="42" transform="rotate(4 54 58)" fill="#059669" />
+            <ellipse cx="80" cy="76" rx="16" ry="32" transform="rotate(28 80 76)" fill="#10B981" />
+          </svg>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 rounded-full bg-sun-soft px-3.5 py-1.5 text-xs font-bold text-sun-foreground shadow-soft">
-            <Star className="size-3.5 fill-sun text-sun" />
-            <span>{stars} ⭐</span>
+
+        {/* Right corner foliage / bushes */}
+        <div className="absolute right-0 bottom-0 translate-y-3 translate-x-1 sm:-translate-x-2">
+          <svg width="100" height="110" viewBox="0 0 100 110" fill="none" className="scale-90 sm:scale-110 origin-bottom-right">
+            <ellipse cx="72" cy="74" rx="18" ry="36" transform="rotate(24 72 74)" fill="#10B981" />
+            <ellipse cx="46" cy="58" rx="20" ry="42" transform="rotate(-4 46 58)" fill="#059669" />
+            <ellipse cx="20" cy="76" rx="16" ry="32" transform="rotate(-28 20 76)" fill="#10B981" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Top Header Bar */}
+      <header className="relative z-20 flex items-center justify-between w-full max-w-5xl mx-auto px-5 sm:px-8 pt-5 sm:pt-7">
+        {/* Round back button */}
+        <button
+          type="button"
+          onClick={onBack}
+          className="size-11 sm:size-12 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-slate-100 flex items-center justify-center hover:bg-slate-50 active:scale-95 transition-all text-slate-800 cursor-pointer"
+          aria-label="Back home"
+        >
+          <ArrowLeft className="size-5 sm:size-5.5 stroke-[2.5]" />
+        </button>
+
+        {/* Parent Check Badge / Toggle */}
+        <button
+          type="button"
+          onClick={() => onToggleParentVerify(!parentVerificationEnabled)}
+          className="bg-[#EBF3FE] border border-[#BFDBFE] text-[#1D4ED8] px-4 sm:px-5 py-1.5 sm:py-2 rounded-full flex items-center gap-2 font-black text-xs sm:text-sm shadow-[0_2px_10px_rgba(37,99,235,0.08)] cursor-pointer hover:bg-blue-100/80 active:scale-95 transition-all select-none"
+          title="Toggle Parent Verification"
+        >
+          <div className="size-4.5 rounded-full bg-[#007AFF] flex items-center justify-center text-white shrink-0">
+            <Check className="size-3 stroke-[3]" />
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-11 rounded-2xl bg-sun-soft text-sun-foreground hover:bg-sun-soft/80"
+          <span>Parent Check: {parentVerificationEnabled ? "ON" : "OFF"}</span>
+        </button>
+
+        {/* Discreet Stars & Pronounce buttons */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex items-center gap-1.5 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-slate-100 px-3.5 py-1.5 text-xs font-black text-slate-700">
+            <Star className="size-3.5 fill-amber-400 text-amber-400" />
+            <span>{stars}</span>
+          </div>
+          <button
+            type="button"
             onClick={pronounce}
+            className="size-11 sm:size-12 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-slate-100 flex items-center justify-center hover:bg-slate-50 active:scale-95 transition-all text-slate-700 cursor-pointer"
             aria-label="Pronounce letter"
+            title="Hear pronunciation"
           >
-            <Volume2 className="size-5" />
-          </Button>
+            <Volume2 className="size-5 text-slate-700" />
+          </button>
         </div>
       </header>
 
-      {/* Verification Mode Status & Instructions */}
-      <div className="mt-5 text-center">
-        <h1 className="font-display text-3xl font-bold">Write it your way</h1>
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+      {/* Main Center Area: Letter Card, Progress, and Action Button */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 py-2 sm:py-4">
+        {/* Letter Tracing Card */}
+        <div className="relative w-full max-w-[310px] sm:max-w-[380px] md:max-w-[430px] aspect-square rounded-[36px] sm:rounded-[44px] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.06),0_2px_8px_rgba(0,0,0,0.03)] border border-white/90 flex items-center justify-center overflow-hidden">
+          {/* Guide Mode Badge / Toggle */}
+          {onToggleGuide && (
+            <button
+              type="button"
+              onClick={onToggleGuide}
+              className={cn(
+                "absolute top-3.5 left-3.5 sm:top-4 sm:left-4 z-20 px-3 py-1 rounded-full text-[11px] font-black tracking-wide border shadow-xs transition-all active:scale-95 cursor-pointer select-none",
+                guide === "guided" && "bg-blue-50/90 text-blue-700 border-blue-200/80 hover:bg-blue-100",
+                guide === "semi" && "bg-amber-50/90 text-amber-800 border-amber-200/80 hover:bg-amber-100",
+                guide === "free" && "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
+              )}
+              title="Click to toggle guide mode"
+              aria-label={`Current mode: ${guide}. Click to switch mode`}
+            >
+              {guide === "guided" ? "Guided" : guide === "semi" ? "Semi-guided" : "Free-hand"}
+            </button>
+          )}
+
+          {/* Tracing letter background */}
+          {guide !== "free" && (
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none transition-all duration-300">
+              <span
+                className="font-display font-black text-[13.5rem] sm:text-[16.5rem] md:text-[19rem] leading-none tracking-normal select-none transition-all duration-300"
+                style={
+                  guide === "semi"
+                    ? {
+                        color: "#2563EB",
+                        opacity: 0.65,
+                        filter: "blur(2.5px)",
+                      }
+                    : {
+                        background:
+                          "linear-gradient(180deg, #4EA8DE 0%, #2B7FFF 35%, #38BDF8 80%, #60EFFF 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        filter: "drop-shadow(0 2px 8px rgba(37,99,235,0.15))",
+                        opacity: 1,
+                      }
+                }
+              >
+                {letter}
+              </span>
+
+              {/* Stroke guide arrows only in full guided mode */}
+              {guide === "guided" && letter.toUpperCase() === "A" && (
+                <div className="absolute top-[54.5%] w-[38%] flex items-center justify-between pointer-events-none opacity-40 px-1">
+                  <span className="text-sky-500 font-bold text-xs select-none">◄</span>
+                  <div className="h-0.5 border-b-2 border-dashed border-sky-400 flex-1 mx-1" />
+                  <span className="text-sky-500 font-bold text-xs select-none">►</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Canvas for child's drawing */}
+          <canvas
+            ref={canvasRef}
+            className="absolute inset-0 size-full touch-none cursor-crosshair z-10"
+            aria-label={`Drawing area for letter ${letter}`}
+            onPointerDown={start}
+            onPointerMove={move}
+            onPointerUp={end}
+            onPointerCancel={end}
+          />
+
+          {/* Discreet Undo / Clear tools */}
+          <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 z-20 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity">
+            {strokeCount > 0 && (
+              <>
+                <button
+                  type="button"
+                  onClick={undo}
+                  className="size-8 sm:size-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-all active:scale-95 shadow-xs cursor-pointer"
+                  title="Undo stroke"
+                  aria-label="Undo"
+                >
+                  <Undo2 className="size-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={clear}
+                  className="size-8 sm:size-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-all active:scale-95 shadow-xs cursor-pointer"
+                  title="Clear all"
+                  aria-label="Clear"
+                >
+                  <RotateCcw className="size-4" />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Feedback banner */}
+          {feedbackBanner && (
+            <div
+              className={cn(
+                "pointer-events-none absolute inset-x-0 top-5 mx-auto w-fit max-w-[90%] rounded-full px-5 py-2 text-xs sm:text-sm font-black shadow-card animate-pop text-center z-30",
+                feedbackBanner.type === "success" && "bg-mint text-mint-foreground border-2 border-mint-strong",
+                feedbackBanner.type === "penalty" && "bg-coral text-white border-2 border-coral-soft",
+                feedbackBanner.type === "nice" && "bg-sun text-sun-foreground"
+              )}
+            >
+              {feedbackBanner.text}
+            </div>
+          )}
+        </div>
+
+        {/* Progress Bar under Card */}
+        <div className="w-full max-w-[310px] sm:max-w-[380px] md:max-w-[430px] mt-4 sm:mt-5.5">
+          <div className="h-3 sm:h-3.5 w-full rounded-full bg-[#DBEAFE] overflow-hidden p-0.5 shadow-inner">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-[#007AFF] to-[#3B82F6] transition-all duration-500 shadow-[0_2px_8px_rgba(0,122,255,0.4)]"
+              style={{
+                width: `${Math.max(4, Math.min(100, (progress / target) * 100))}%`,
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Action: "Done" Button with Celebration Rays */}
+        <div className="mt-5 sm:mt-6 flex items-center justify-center gap-2 sm:gap-3">
+          {/* Left sparkle rays */}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[#22C55E] stroke-current stroke-[3] stroke-linecap-round select-none shrink-0">
+            <line x1="18" y1="5" x2="8" y2="7" />
+            <line x1="20" y1="12" x2="6" y2="12" />
+            <line x1="18" y1="19" x2="8" y2="17" />
+          </svg>
+
           <button
             type="button"
-            onClick={() => onToggleParentVerify(!parentVerificationEnabled)}
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-bold border transition-all cursor-pointer shadow-xs",
-              parentVerificationEnabled
-                ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
-                : "border-border bg-secondary text-muted-foreground hover:text-foreground"
-            )}
-            title="Toggle Parent Verification mode"
+            onClick={submit}
+            className="px-9 sm:px-11 py-3 sm:py-3.5 rounded-full bg-gradient-to-b from-[#22C55E] to-[#16A34A] hover:from-[#16A34A] hover:to-[#15803D] active:scale-95 transition-all text-white font-black text-base sm:text-lg shadow-[0_12px_24px_-4px_rgba(34,197,94,0.42)] flex items-center justify-center gap-2.5 cursor-pointer select-none"
           >
-            <ShieldCheck className="size-3.5" />
-            <span>Parent Check: {parentVerificationEnabled ? "ON (+5 ⭐ / -2 ⭐)" : "OFF (Auto +3 ⭐)"}</span>
+            <Check className="size-5.5 sm:size-6 stroke-[3.5] text-white" />
+            <span>Done</span>
           </button>
+
+          {/* Right sparkle rays */}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[#22C55E] stroke-current stroke-[3] stroke-linecap-round select-none shrink-0">
+            <line x1="6" y1="5" x2="16" y2="7" />
+            <line x1="4" y1="12" x2="18" y2="12" />
+            <line x1="6" y1="19" x2="16" y2="17" />
+          </svg>
         </div>
       </div>
 
-      <div className="relative mt-6 h-[390px] overflow-hidden rounded-[2rem] border border-border/70 bg-canvas shadow-card sm:aspect-[4/3] sm:h-auto sm:max-h-[58vh] sm:min-h-[390px]">
-        {guide !== "free" && (
-          <div
-            className={cn(
-              "pointer-events-none absolute inset-0 grid place-items-center font-display text-[16rem] font-bold leading-none text-guide sm:text-[22rem]",
-              guide === "guided" && "guide-animated"
-            )}
-          >
-            {letter}
-          </div>
-        )}
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 size-full touch-none cursor-crosshair"
-          aria-label={`Drawing area for letter ${letter}`}
-          onPointerDown={start}
-          onPointerMove={move}
-          onPointerUp={end}
-          onPointerCancel={end}
-        />
-        {feedbackBanner && (
-          <div
-            className={cn(
-              "pointer-events-none absolute inset-x-0 top-6 mx-auto w-fit max-w-[90%] rounded-full px-6 py-3 text-sm font-bold shadow-card animate-pop text-center z-20",
-              feedbackBanner.type === "success" && "bg-mint text-mint-foreground border-2 border-mint-strong",
-              feedbackBanner.type === "penalty" && "bg-coral text-white border-2 border-coral-soft",
-              feedbackBanner.type === "nice" && "bg-sun text-sun-foreground"
-            )}
-          >
-            {feedbackBanner.text}
-          </div>
-        )}
-      </div>
+      {/* Spacer to balance bottom */}
+      <div className="h-6 sm:h-8" />
 
-      <div className="mt-6">
-        <div className="flex items-center justify-between text-sm font-bold">
-          <span>{progress} / {target} written</span>
-          <span className="text-muted-foreground">{target - progress} more to complete letter</span>
-        </div>
-        <progress className="progress mt-3 h-2 w-full" value={progress} max={target}>
-          Progress
-        </progress>
-      </div>
-
-      <div className="mt-6 flex items-center justify-center gap-3">
-        <Button
-          variant="secondary"
-          size="icon"
-          className="size-13 rounded-2xl"
-          onClick={undo}
-          disabled={!strokeCount}
-          aria-label="Undo last stroke"
-        >
-          <Undo2 />
-        </Button>
-        <Button
-          variant="secondary"
-          className="h-13 rounded-2xl px-5 font-bold"
-          onClick={clear}
-          disabled={!strokeCount}
-        >
-          <Trash2 /> Clear
-        </Button>
-        <Button
-          size="icon"
-          className="size-16 rounded-full shadow-button cursor-pointer"
-          onClick={submit}
-          disabled={!strokeCount}
-          aria-label="Check my writing"
-        >
-          <Check className="size-7" />
-        </Button>
-      </div>
-
-      {/* Parent Verification Modal */}
+      {/* Parent Verification Modal - Responsive for Mobile & Desktop */}
       {showParentVerify && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-pop">
-          <div className="relative w-full max-w-lg rounded-[2.2rem] border border-border bg-card p-6 sm:p-8 shadow-card text-foreground">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="grid size-10 place-items-center rounded-xl bg-primary text-primary-foreground">
-                  <ShieldCheck className="size-6" />
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold">Parent Verification</h3>
-                  <p className="text-xs font-semibold text-muted-foreground">Verify {childName}&apos;s writing</p>
-                </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/40 backdrop-blur-md animate-pop">
+          <div className="relative w-full max-w-[340px] sm:max-w-[440px] md:max-w-[540px] max-h-[94vh] overflow-y-auto bg-white rounded-[28px] sm:rounded-[36px] md:rounded-[40px] p-4 sm:p-6 md:p-7 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.15),0_10px_25px_-5px_rgba(0,0,0,0.06)] border border-slate-100 flex flex-col items-center text-foreground">
+            {/* Top Close Button */}
+            <button
+              type="button"
+              onClick={() => setShowParentVerify(false)}
+              className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 size-8.5 sm:size-10 rounded-full bg-slate-100/90 hover:bg-slate-200 border border-slate-200/60 flex items-center justify-center text-slate-500 hover:text-slate-900 active:scale-95 transition-all shadow-xs cursor-pointer z-10"
+              aria-label="Close parent verification"
+            >
+              <X className="size-4 sm:size-5 stroke-[2.5]" />
+            </button>
+
+            {/* Circular Blue Shield Icon */}
+            <div className="size-10 sm:size-13 rounded-full bg-[#EBF3FE] flex items-center justify-center shadow-xs mb-1.5 sm:mb-2">
+              <div className="size-5.5 sm:size-7 rounded-full bg-[#007AFF] flex items-center justify-center text-white shadow-xs">
+                <Check className="size-3 sm:size-4 stroke-[3.5]" />
               </div>
+            </div>
+
+            {/* Parent Check: ON Pill Badge */}
+            <div className="bg-[#EBF3FE] border border-[#BFDBFE] text-[#007AFF] px-3 sm:px-3.5 py-0.5 sm:py-1 rounded-full flex items-center gap-1.5 font-black text-xs sm:text-sm shadow-xs mb-3 sm:mb-5 select-none">
+              <div className="size-3 sm:size-3.5 rounded-full bg-[#007AFF] flex items-center justify-center text-white shrink-0">
+                <Check className="size-2 stroke-[3]" />
+              </div>
+              <span>Parent Check: ON</span>
+            </div>
+
+            {/* Responsive Cards & Buttons Grid:
+                - On mobile: Two compact stacked rounded cards (h-26 sm:h-30 md:h-auto md:aspect-square) + 2 side-by-side action buttons
+                - On md/desktop: Side-by-side square cards with action buttons directly underneath each card
+            */}
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-4 w-full">
+              {/* Target Standard Letter Card */}
+              <div className="col-span-2 md:col-span-1 h-26 sm:h-30 md:h-auto md:aspect-square rounded-[22px] sm:rounded-[28px] bg-[#F0F6FF] border border-blue-100/70 flex items-center justify-center p-2.5 sm:p-3 shadow-inner/40">
+                <span className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#1E293B] leading-none select-none">
+                  {letter}
+                </span>
+              </div>
+
+              {/* Child's Writing Attempt Card */}
+              <div className="col-span-2 md:col-span-1 h-26 sm:h-30 md:h-auto md:aspect-square rounded-[22px] sm:rounded-[28px] bg-[#FFFBEB] border border-amber-100/70 flex items-center justify-center p-2.5 sm:p-3 overflow-hidden shadow-inner/40">
+                {canvasPreview ? (
+                  <img
+                    src={canvasPreview}
+                    alt={`${childName}'s writing attempt`}
+                    className="size-full object-contain filter drop-shadow-xs"
+                  />
+                ) : (
+                  <span className="font-display font-black text-5xl sm:text-6xl text-blue-500 italic select-none">
+                    {letter}
+                  </span>
+                )}
+              </div>
+
+              {/* Red ✕ Button (Incorrect: -2 Stars) */}
               <button
-                onClick={() => setShowParentVerify(false)}
-                className="grid size-9 place-items-center rounded-xl text-muted-foreground hover:bg-secondary cursor-pointer"
-                aria-label="Close verification modal"
-              >
-                <X className="size-5" />
-              </button>
-            </div>
-
-            {/* Comparison Grid */}
-            <div className="mt-5 grid grid-cols-2 gap-4">
-              {/* Target Letter */}
-              <div className="flex flex-col items-center justify-center rounded-2xl border border-border/80 bg-secondary/50 p-4 text-center">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Target Letter</span>
-                <span className="my-2 font-display text-6xl font-black text-foreground">{letter}</span>
-                <span className="text-[11px] font-semibold text-muted-foreground">Goal standard</span>
-              </div>
-
-              {/* Child's Drawing */}
-              <div className="flex flex-col items-center justify-center rounded-2xl border border-border/80 bg-canvas p-3 text-center overflow-hidden">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{childName}&apos;s Writing</span>
-                <div className="my-2 flex h-20 w-full items-center justify-center rounded-xl bg-canvas">
-                  {canvasPreview ? (
-                    <img src={canvasPreview} alt="Child's writing attempt" className="max-h-20 max-w-full object-contain" />
-                  ) : (
-                    <span className="text-xs text-muted-foreground italic">Drawn on canvas</span>
-                  )}
-                </div>
-                <span className="text-[11px] font-semibold text-primary">Current attempt</span>
-              </div>
-            </div>
-
-            {/* Question & Point Rules */}
-            <div className="mt-4 rounded-2xl bg-secondary/60 p-3.5 text-center">
-              <p className="font-display text-base font-bold">Is the letter {letter} written correctly?</p>
-              <div className="mt-2 flex items-center justify-center gap-4 text-xs font-bold">
-                <span className="text-mint-strong">Right Attempt: +5 ⭐</span>
-                <span className="text-muted-foreground">•</span>
-                <span className="text-destructive">False Attempt: -2 ⭐</span>
-              </div>
-            </div>
-
-            {/* Verification Action Buttons */}
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              <Button
-                size="lg"
-                variant="outline"
-                className="h-14 rounded-2xl border-2 border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive hover:text-white font-bold text-sm shadow-soft cursor-pointer flex items-center justify-center gap-2"
+                type="button"
                 onClick={() => handleParentDecision(false)}
+                className="col-span-1 h-12 sm:h-13 md:h-15 rounded-2xl sm:rounded-3xl md:rounded-[24px] bg-[#FEE2E2] hover:bg-[#FECACA] border border-red-200/60 flex items-center justify-center text-[#EF4444] shadow-xs active:scale-95 transition-all cursor-pointer"
+                title="Needs practice (-2 Stars)"
+                aria-label="Mark attempt as incorrect"
               >
-                <X className="size-5" />
-                <div className="text-left">
-                  <div className="leading-tight font-extrabold">False / Incorrect</div>
-                  <div className="text-[10px] opacity-80">-2 Stars</div>
-                </div>
-              </Button>
+                <X className="size-6 sm:size-7 stroke-[3.5]" />
+              </button>
 
-              <Button
-                size="lg"
-                className="h-14 rounded-2xl bg-mint text-mint-foreground hover:bg-mint/90 font-bold text-sm shadow-button cursor-pointer flex items-center justify-center gap-2"
-                onClick={() => handleParentDecision(true)}
-              >
-                <Check className="size-5 stroke-[3]" />
-                <div className="text-left">
-                  <div className="leading-tight font-extrabold">True / Right</div>
-                  <div className="text-[10px] opacity-90">+5 Stars ⭐</div>
-                </div>
-              </Button>
-            </div>
-
-            <div className="mt-4 text-center">
+              {/* Green ✔ Button (Correct: +5 Stars) */}
               <button
-                onClick={() => setShowParentVerify(false)}
-                className="text-xs font-semibold text-muted-foreground hover:text-foreground underline underline-offset-4 cursor-pointer"
+                type="button"
+                onClick={() => handleParentDecision(true)}
+                className="col-span-1 h-12 sm:h-13 md:h-15 rounded-2xl sm:rounded-3xl md:rounded-[24px] bg-[#D1FAE5] hover:bg-[#A7F3D0] border border-emerald-200/60 flex items-center justify-center text-[#10B981] shadow-xs active:scale-95 transition-all cursor-pointer"
+                title="Correct! (+5 Stars)"
+                aria-label="Mark attempt as correct"
               >
-                Let child keep editing without judging
+                <Check className="size-6 sm:size-7 stroke-[3.5]" />
               </button>
             </div>
           </div>
         </div>
       )}
     </section>
+  );
+}
+
+function DaisyFlower({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={cn("size-5 sm:size-6", className)}>
+      <circle cx="12" cy="7" r="3.2" fill="#FFFFFF" />
+      <circle cx="12" cy="17" r="3.2" fill="#FFFFFF" />
+      <circle cx="7" cy="12" r="3.2" fill="#FFFFFF" />
+      <circle cx="17" cy="12" r="3.2" fill="#FFFFFF" />
+      <circle cx="8.5" cy="8.5" r="3.2" fill="#FFFFFF" />
+      <circle cx="15.5" cy="8.5" r="3.2" fill="#FFFFFF" />
+      <circle cx="8.5" cy="15.5" r="3.2" fill="#FFFFFF" />
+      <circle cx="15.5" cy="15.5" r="3.2" fill="#FFFFFF" />
+      <circle cx="12" cy="12" r="3.4" fill="#FACC15" />
+    </svg>
   );
 }
 
@@ -1045,38 +1229,171 @@ function CompletionScreen({
   useEffect(() => {
     if (soundEnabled) playSound("win");
   }, [soundEnabled]);
+
   return (
-    <section className="mx-auto flex min-h-[85vh] max-w-3xl flex-col items-center justify-center text-center">
-      <div className="relative grid size-32 place-items-center rounded-full bg-sun-soft text-6xl font-bold text-sun-foreground shadow-glow animate-celebrate">
-        {letter}
-        <Check className="absolute -right-1 top-1 size-9 rounded-full bg-mint p-1.5 text-mint-foreground" />
+    <section className="relative min-h-screen w-full bg-[#FAF7F0] flex flex-col items-center justify-center px-4 py-6 overflow-hidden select-none">
+      {/* Scenic Background Clouds */}
+      <div className="pointer-events-none absolute left-[-2%] top-[6%] w-36 sm:w-56 text-white/90 select-none z-0">
+        <svg viewBox="0 0 200 110" fill="currentColor">
+          <path d="M40 85 C20 85 8 72 8 55 C8 38 22 25 38 25 C45 10 65 2 85 2 C110 2 130 15 138 34 C145 30 155 28 165 28 C185 28 198 42 198 60 C198 75 186 85 170 85 Z" />
+        </svg>
       </div>
-      <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-sun-soft px-4 py-1.5 font-extrabold text-sun-foreground text-sm shadow-soft">
-        <Star className="size-4 fill-sun text-sun" />
-        <span>You now have {stars} Stars to unlock games!</span>
+
+      <div className="pointer-events-none absolute right-[-2%] top-[8%] w-40 sm:w-64 text-white/90 select-none z-0">
+        <svg viewBox="0 0 200 110" fill="currentColor">
+          <path d="M40 85 C20 85 8 72 8 55 C8 38 22 25 38 25 C45 10 65 2 85 2 C110 2 130 15 138 34 C145 30 155 28 165 28 C185 28 198 42 198 60 C198 75 186 85 170 85 Z" />
+        </svg>
       </div>
-      <p className="mt-4 text-sm font-bold text-primary">LETTER COMPLETE</p>
-      <h1 className="mt-1 font-display text-4xl font-bold sm:text-5xl">Nicely written!</h1>
-      <p className="mt-2 max-w-md font-semibold text-muted-foreground">
-        Your writing unlocked new games in the Game Garden. Keep collecting stars!
-      </p>
-      <div className="mt-8 w-full overflow-hidden rounded-[2rem] bg-card text-left shadow-card">
-        <img src={runnerImage} width={1200} height={900} alt="Game garden" className="aspect-[2/1] w-full object-cover" />
-        <div className="flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-          <div>
-            <p className="flex items-center gap-2 text-sm font-bold text-primary">
-              <Sparkles className="size-4" /> REWARD UNLOCKED
-            </p>
-            <h2 className="mt-1 font-display text-2xl font-bold">Game Garden</h2>
+
+      {/* Floating Stars */}
+      <div className="pointer-events-none absolute left-[7%] top-[30%] z-0">
+        <svg width="28" height="28" viewBox="0 0 34 34" fill="none">
+          <path
+            d="M17 2.8c.6 0 1.2.4 1.4 1l3.3 7.2 7.7 1.1c.7.1 1.2.7 1.2 1.3 0 .3-.1.7-.4.9l-5.7 5.4 1.5 7.7c.1.7-.2 1.3-.8 1.6-.6.3-1.2.2-1.7-.1L17 25.1l-6.9 3.8c-.5.3-1.2.4-1.7.1-.6-.3-.9-1-.8-1.6l1.5-7.7-5.7-5.4c-.3-.2-.4-.6-.4-.9 0-.6.5-1.2 1.2-1.3l7.7-1.1 3.3-7.2c.2-.6.8-1 1.5-1z"
+            fill="#FCD34D"
+            stroke="#F59E0B"
+            strokeWidth="0.8"
+          />
+        </svg>
+      </div>
+
+      <div className="pointer-events-none absolute right-[9%] top-[22%] z-0">
+        <svg width="26" height="26" viewBox="0 0 34 34" fill="none">
+          <path
+            d="M17 2.8c.6 0 1.2.4 1.4 1l3.3 7.2 7.7 1.1c.7.1 1.2.7 1.2 1.3 0 .3-.1.7-.4.9l-5.7 5.4 1.5 7.7c.1.7-.2 1.3-.8 1.6-.6.3-1.2.2-1.7-.1L17 25.1l-6.9 3.8c-.5.3-1.2.4-1.7.1-.6-.3-.9-1-.8-1.6l1.5-7.7-5.7-5.4c-.3-.2-.4-.6-.4-.9 0-.6.5-1.2 1.2-1.3l7.7-1.1 3.3-7.2c.2-.6.8-1 1.5-1z"
+            fill="#FCD34D"
+            stroke="#F59E0B"
+            strokeWidth="0.8"
+          />
+        </svg>
+      </div>
+
+      {/* Floating Confetti Dots */}
+      <div className="absolute left-[6%] top-[20%] size-3 rounded-full bg-[#10B981]/70 pointer-events-none z-0" />
+      <div className="absolute left-[11%] top-[54%] size-2.5 rounded-full bg-[#38BDF8]/75 pointer-events-none z-0" />
+      <div className="absolute right-[8%] top-[42%] size-3 rounded-full bg-[#38BDF8]/80 pointer-events-none z-0" />
+      <div className="absolute right-[14%] top-[17%] size-2.5 rounded-full bg-[#10B981]/70 pointer-events-none z-0" />
+
+      {/* Bottom Rolling Green Hills, Corner Foliage, and Daisies */}
+      <div className="absolute inset-x-0 bottom-0 pointer-events-none select-none z-0 overflow-hidden h-36 sm:h-48 md:h-56">
+        {/* Back rolling hill */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-28 sm:h-36 md:h-44 fill-[#B9F5D8]">
+          <path d="M0,90 Q320,15 720,80 T1440,50 L1440,220 L0,220 Z" />
+        </svg>
+        {/* Front rolling hill */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-20 sm:h-28 md:h-34 fill-[#86EFAC]">
+          <path d="M0,60 Q420,130 860,50 T1440,70 L1440,220 L0,220 Z" />
+        </svg>
+        {/* Front ground wave */}
+        <svg viewBox="0 0 1440 220" preserveAspectRatio="none" className="absolute bottom-0 w-full h-12 sm:h-18 fill-[#4ADE80]/30">
+          <path d="M0,40 Q500,90 1000,30 T1440,50 L1440,220 L0,220 Z" />
+        </svg>
+
+        {/* Daisies on grass */}
+        <div className="absolute left-[14%] bottom-4 sm:bottom-6">
+          <DaisyFlower className="size-5 sm:size-6" />
+        </div>
+        <div className="absolute left-[30%] bottom-2 sm:bottom-4">
+          <DaisyFlower className="size-4 sm:size-5" />
+        </div>
+        <div className="absolute right-[16%] bottom-4 sm:bottom-6">
+          <DaisyFlower className="size-5 sm:size-6" />
+        </div>
+        <div className="absolute right-[34%] bottom-2 sm:bottom-4">
+          <DaisyFlower className="size-4 sm:size-5" />
+        </div>
+
+        {/* Left corner foliage / bushes */}
+        <div className="absolute left-0 bottom-0 translate-y-3 -translate-x-1 sm:translate-x-2">
+          <svg width="100" height="110" viewBox="0 0 100 110" fill="none" className="scale-90 sm:scale-110 origin-bottom-left">
+            <ellipse cx="28" cy="74" rx="18" ry="36" transform="rotate(-24 28 74)" fill="#10B981" />
+            <ellipse cx="54" cy="58" rx="20" ry="42" transform="rotate(4 54 58)" fill="#059669" />
+            <ellipse cx="80" cy="76" rx="16" ry="32" transform="rotate(28 80 76)" fill="#10B981" />
+          </svg>
+        </div>
+
+        {/* Right corner foliage / bushes */}
+        <div className="absolute right-0 bottom-0 translate-y-3 translate-x-1 sm:-translate-x-2">
+          <svg width="100" height="110" viewBox="0 0 100 110" fill="none" className="scale-90 sm:scale-110 origin-bottom-right">
+            <ellipse cx="72" cy="74" rx="18" ry="36" transform="rotate(24 72 74)" fill="#10B981" />
+            <ellipse cx="46" cy="58" rx="20" ry="42" transform="rotate(-4 46 58)" fill="#059669" />
+            <ellipse cx="20" cy="76" rx="16" ry="32" transform="rotate(-28 20 76)" fill="#10B981" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Main Celebration Card / Content */}
+      <div className="relative z-10 w-full max-w-[340px] sm:max-w-[480px] md:max-w-[580px] bg-white/95 sm:bg-white rounded-[32px] sm:rounded-[44px] p-5 sm:p-8 md:p-9 shadow-[0_20px_50px_rgba(0,0,0,0.06),0_2px_10px_rgba(0,0,0,0.02)] border border-white flex flex-col items-center text-center my-auto animate-pop">
+        {/* Golden Coin with Completed Letter & Radiating Burst Rays */}
+        <div className="relative flex items-center justify-center">
+          {/* Confetti Rays */}
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center select-none">
+            {/* Top-left yellow ray */}
+            <span className="absolute -top-3.5 -left-2.5 sm:-top-4 sm:-left-3 w-1.5 h-3.5 sm:w-2 sm:h-4.5 rounded-full bg-[#FACC15] -rotate-[35deg]" />
+            {/* Top-right cyan ray */}
+            <span className="absolute -top-3.5 -right-2.5 sm:-top-4 sm:-right-3 w-1.5 h-3.5 sm:w-2 sm:h-4.5 rounded-full bg-[#38BDF8] rotate-[35deg]" />
+            {/* Right yellow ray */}
+            <span className="absolute top-1/2 -right-4 sm:-right-5 -translate-y-1/2 w-3.5 h-1.5 sm:w-4.5 sm:h-2 rounded-full bg-[#FACC15]" />
+            {/* Left cyan ray */}
+            <span className="absolute top-1/2 -left-4 sm:-left-5 -translate-y-1/2 w-3.5 h-1.5 sm:w-4.5 sm:h-2 rounded-full bg-[#38BDF8]" />
+            {/* Bottom-left green ray */}
+            <span className="absolute -bottom-2 -left-1 sm:-bottom-2.5 sm:-left-1.5 w-1.5 h-3.5 sm:w-2 sm:h-4.5 rounded-full bg-[#4ADE80] -rotate-[135deg]" />
+            {/* Bottom-right yellow ray */}
+            <span className="absolute -bottom-2 -right-1 sm:-bottom-2.5 sm:-right-1.5 w-1.5 h-3.5 sm:w-2 sm:h-4.5 rounded-full bg-[#FACC15] rotate-[135deg]" />
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button variant="outline" className="h-13 rounded-2xl px-6 font-bold" onClick={onNextLetter}>
-              <Pencil /> Next letter
-            </Button>
-            <Button className="h-13 rounded-2xl px-7 font-bold shadow-button" onClick={onPlay}>
-              <Gamepad2 className="fill-current" /> Go to games
-            </Button>
+
+          {/* Main Golden Coin Badge */}
+          <div className="relative size-16 sm:size-20 rounded-full bg-gradient-to-b from-[#FEF08A] to-[#FDE047] border-[4px] sm:border-[5px] border-[#FCD34D] shadow-[0_6px_20px_rgba(245,158,11,0.28)] flex items-center justify-center select-none">
+            <span className="font-display font-black text-3xl sm:text-4xl text-[#78350F] leading-none">
+              {letter}
+            </span>
           </div>
+        </div>
+
+        {/* Heading: "Great job!" */}
+        <h1 className="font-display font-black text-3xl sm:text-4xl md:text-[2.6rem] text-[#0F172A] tracking-tight mt-3 sm:mt-3.5 select-none">
+          Great job!
+        </h1>
+
+        {/* Badge: "Letter complete" */}
+        <div className="mt-2 sm:mt-2.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#EBF3FE] border border-[#BFDBFE] px-3.5 sm:px-4 py-1 sm:py-1.5 shadow-xs select-none">
+          <div className="size-4 sm:size-4.5 rounded-full bg-[#007AFF] flex items-center justify-center text-white shrink-0">
+            <Check className="size-2.5 sm:size-3 stroke-[3.5]" />
+          </div>
+          <span className="font-black text-xs sm:text-sm text-[#007AFF]">Letter complete</span>
+        </div>
+
+        {/* Center Feature Card: Runner Game Reward Image */}
+        <div className="mt-4 sm:mt-5.5 w-full max-w-[460px] aspect-[16/10] rounded-[22px] sm:rounded-[28px] overflow-hidden border-[3px] sm:border-4 border-white shadow-[0_16px_40px_rgba(0,0,0,0.08),0_2px_8px_rgba(0,0,0,0.03)] bg-white select-none">
+          <img
+            src={runnerImage}
+            alt="Game reward"
+            className="size-full object-cover"
+          />
+        </div>
+
+        {/* Responsive Action Buttons:
+            - Mobile: Stacked vertically ("Next letter" on top, "Go to games" on bottom)
+            - Desktop: Side-by-side
+        */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-3.5 w-full max-w-[460px] mt-4.5 sm:mt-6">
+          <button
+            type="button"
+            onClick={onNextLetter}
+            className="w-full sm:w-1/2 h-12 sm:h-13 px-6 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 text-[#1E293B] font-black text-sm sm:text-base shadow-[0_4px_14px_rgba(0,0,0,0.04)] flex items-center justify-center gap-2.5 active:scale-95 transition-all cursor-pointer select-none"
+          >
+            <Pencil className="size-4.5 text-[#1E293B] stroke-[2.5]" />
+            <span>Next letter</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onPlay}
+            className="w-full sm:w-1/2 h-12 sm:h-13 px-6 rounded-full bg-[#007AFF] hover:bg-[#0066EE] text-white font-black text-sm sm:text-base shadow-[0_8px_24px_rgba(0,122,255,0.32)] flex items-center justify-center gap-2.5 active:scale-95 transition-all cursor-pointer select-none"
+          >
+            <Gamepad2 className="size-5 text-white" />
+            <span>Go to games</span>
+          </button>
         </div>
       </div>
     </section>
@@ -1573,16 +1890,26 @@ function ParentScreen({
           </div>
 
           <div className="mt-5 rounded-[2rem] bg-card p-6 shadow-soft sm:p-8">
-            <h2 className="font-display text-xl font-bold">Writing guide</h2>
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="font-display text-xl font-bold">Writing guide</h2>
+                <p className="text-xs text-muted-foreground mt-0.5">Control how much assistance is shown on the canvas</p>
+              </div>
+            </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              {(["guided", "semi", "free"] as GuideMode[]).map((mode) => (
+              {[
+                { mode: "guided" as const, label: "Guided", desc: "Full clear letter & directional arrows" },
+                { mode: "semi" as const, label: "Semi-guided", desc: "Soft blurred letter guide without arrows" },
+                { mode: "free" as const, label: "Free-hand", desc: "Blank canvas, no guide" },
+              ].map(({ mode, label, desc }) => (
                 <Button
                   key={mode}
                   variant={state.guide === mode ? "default" : "outline"}
-                  className="h-14 rounded-xl capitalize"
+                  className="h-auto flex-col items-start p-4 rounded-xl text-left cursor-pointer"
                   onClick={() => setState((previous) => ({ ...previous, guide: mode }))}
                 >
-                  {mode === "semi" ? "Semi-guided" : mode}
+                  <span className="font-bold text-sm">{label}</span>
+                  <span className="text-[11px] font-normal opacity-80 mt-1">{desc}</span>
                 </Button>
               ))}
             </div>
