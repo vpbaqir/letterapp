@@ -401,7 +401,7 @@ export function WriteUnlockApp() {
   if (!ready) return <div className="min-h-screen bg-background" />;
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className={cn("min-h-screen bg-background text-foreground", screen === "runner" ? "game-mode" : "")}>
       {screen === "write" ? (
         <WritingScreen
           letter={currentLetter}
@@ -435,7 +435,10 @@ export function WriteUnlockApp() {
           onNextLetter={continueJourney}
         />
       ) : (
-        <div className="mx-auto min-h-screen w-full max-w-6xl px-4 pb-28 pt-5 sm:px-7 lg:px-10 lg:pt-8">
+        <div className={cn(
+  "mx-auto w-full max-w-6xl px-4 sm:px-7 lg:px-10",
+  screen === "runner" ? "game-page-shell pt-3 pb-4" : "min-h-screen pb-28 pt-5 lg:pt-8"
+)}>
           {screen === "home" && (
             <ChildHome
               state={state}
@@ -532,30 +535,30 @@ function ChildHome({
         </div>
       </header>
 
-      <section className="mt-10 lg:mt-14">
+      <section className="mt-7 lg:mt-10">
         <p className="text-sm font-bold text-primary">Ready to write, {state.childName}?</p>
-        <h1 className="mt-2 font-display text-4xl font-bold sm:text-5xl">Let&apos;s practice!</h1>
+        <h1 className="mt-1 font-display text-3xl font-bold sm:text-5xl">Let&apos;s practice!</h1>
       </section>
 
-      <section className="mt-7 grid gap-6 lg:grid-cols-[1.45fr_0.8fr]">
-        <div className="relative min-h-[410px] overflow-hidden rounded-[2rem] bg-sky shadow-card sm:min-h-[460px]">
+      <section className="mt-5 grid gap-4 lg:grid-cols-[1.45fr_0.8fr]">
+        <div className="relative min-h-[350px] overflow-hidden rounded-[1.75rem] bg-sky shadow-card sm:min-h-[410px]">
           <img src={heroImage} width={1200} height={900} alt="A cheerful pencil flying through soft clouds" className="absolute inset-0 size-full object-cover" />
           <div className="absolute inset-0 bg-hero-wash" />
-          <div className="relative flex h-full min-h-[410px] flex-col justify-between p-7 sm:min-h-[460px] sm:p-10">
+          <div className="relative flex h-full min-h-[350px] flex-col justify-between p-5 sm:min-h-[410px] sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-bold text-ink-soft">Today&apos;s letter</p>
-                <p className="mt-1 font-display text-[7.5rem] font-bold leading-none text-foreground sm:text-[9rem]">{currentLetter}</p>
+                <p className="mt-1 font-display text-[6rem] font-bold leading-none text-foreground sm:text-[8rem]">{currentLetter}</p>
               </div>
-              <div className="rounded-full bg-glass px-4 py-2 text-sm font-bold backdrop-blur-md">{progress} / {target} written</div>
+              <div className="rounded-full bg-glass px-4 py-2 text-sm font-bold backdrop-blur-md">{progress} of {target} completed</div>
             </div>
-            <Button className="h-14 w-full rounded-2xl text-base font-bold shadow-button sm:w-48 cursor-pointer" onClick={() => onNavigate("write")}>
+            <Button className="h-13 w-full rounded-2xl text-base font-bold shadow-button sm:w-52 cursor-pointer" onClick={() => onNavigate("write")}>
               <Pencil /> Write {currentLetter}
             </Button>
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:grid-cols-1">
           <StatCard icon={<Pencil />} value={state.totalWritten} label="Written" tone="coral" />
           <StatCard icon={<Star className="fill-current" />} value={state.stars ?? 0} label="Stars Collected" tone="yellow" />
           <StatCard icon={<Gamepad2 />} value={unlockedGamesCount} label="Games Unlocked" tone="mint" />
@@ -599,9 +602,9 @@ function ChildHome({
 
 function StatCard({ icon, value, label, tone }: { icon: React.ReactNode; value: number; label: string; tone: "coral" | "mint" | "yellow" }) {
   return (
-    <div className="flex min-h-32 items-center gap-4 rounded-[1.6rem] border border-border/60 bg-card p-5 shadow-soft lg:min-h-0 lg:flex-1">
-      <div className={cn("grid size-12 place-items-center rounded-2xl", tone === "coral" && "bg-coral-soft text-coral", tone === "mint" && "bg-mint text-mint-foreground", tone === "yellow" && "bg-sun-soft text-sun-foreground")}>{icon}</div>
-      <div><p className="font-display text-3xl font-bold">{value}</p><p className="text-sm font-semibold text-muted-foreground">{label}</p></div>
+    <div className="flex min-h-24 flex-col items-center justify-center gap-1.5 rounded-2xl border border-border/60 bg-card p-3 text-center shadow-soft sm:min-h-28 sm:flex-row sm:gap-4 sm:p-5 lg:min-h-0 lg:flex-1 lg:justify-start lg:text-left">
+      <div className={cn("grid size-10 place-items-center rounded-xl sm:size-12 sm:rounded-2xl", tone === "coral" && "bg-coral-soft text-coral", tone === "mint" && "bg-mint text-mint-foreground", tone === "yellow" && "bg-sun-soft text-sun-foreground")}>{icon}</div>
+      <div><p className="font-display text-2xl font-bold sm:text-3xl">{value}</p><p className="text-[11px] font-semibold leading-tight text-muted-foreground sm:text-sm">{label}</p></div>
     </div>
   );
 }
@@ -2158,41 +2161,164 @@ function RunnerGame({ soundEnabled, onDone }: { soundEnabled: boolean; onDone: (
   const [score, setScore] = useState(0);
   const [jumping, setJumping] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [starX, setStarX] = useState(105);
+  const [obstacleX, setObstacleX] = useState(115);
 
   const jump = useCallback(() => {
     if (jumping || finished) return;
     setJumping(true);
-    setScore((value) => value + 1);
-    if (soundEnabled) playSound("jump");
+
+    // The star is collectible only when it reaches the fox's lane.
+    if (starX >= 12 && starX <= 30) {
+      setScore((value) => value + 1);
+      if (soundEnabled) playSound("collect", 0.35);
+    } else if (soundEnabled) {
+      playSound("jump", 0.35);
+    }
+
     window.setTimeout(() => setJumping(false), 650);
-  }, [finished, jumping, soundEnabled]);
+  }, [finished, jumping, soundEnabled, starX]);
 
   useEffect(() => {
     if (finished) return;
-    const timer = window.setInterval(() => setTime((value) => {
-      if (value <= 1) { setFinished(true); return 0; }
-      return value - 1;
-    }), 1000);
+    const timer = window.setInterval(() => {
+      setTime((value) => {
+        if (value <= 1) {
+          setFinished(true);
+          return 0;
+        }
+        return value - 1;
+      });
+    }, 1000);
     return () => window.clearInterval(timer);
   }, [finished]);
 
   useEffect(() => {
-    const listener = (event: KeyboardEvent) => { if (event.code === "Space" || event.code === "ArrowUp") { event.preventDefault(); jump(); } };
+    if (finished) return;
+    const timer = window.setInterval(() => {
+      setStarX((value) => (value <= -10 ? 110 : value - 3.2));
+      setObstacleX((value) => (value <= -18 ? 112 : value - 3.8));
+    }, 80);
+    return () => window.clearInterval(timer);
+  }, [finished]);
+
+  useEffect(() => {
+    if (finished || jumping) return;
+    if (obstacleX >= 10 && obstacleX <= 27) {
+      setFinished(true);
+      if (soundEnabled) playSound("retry", 0.35);
+    }
+  }, [finished, jumping, obstacleX, soundEnabled]);
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if (event.code === "Space" || event.code === "ArrowUp") {
+        event.preventDefault();
+        jump();
+      }
+    };
     window.addEventListener("keydown", listener);
     return () => window.removeEventListener("keydown", listener);
   }, [jump]);
 
   return (
-    <section className="mx-auto max-w-5xl">
-      <header className="flex items-center justify-between"><Button variant="ghost" size="icon" className="size-11 rounded-2xl" onClick={onDone} aria-label="Leave game"><ArrowLeft /></Button><div className="text-center"><p className="text-sm font-bold text-primary">WRITING REWARD</p><h1 className="font-display text-xl font-bold">Endless Runner</h1></div><div className="rounded-full bg-card px-4 py-2 text-sm font-bold shadow-soft">{time}s</div></header>
-      <div className="runner-world relative mt-6 aspect-[16/10] min-h-[430px] overflow-hidden rounded-[2rem] shadow-card" onPointerDown={jump} role="button" tabIndex={0} aria-label="Runner game. Tap to jump.">
-        <img src={runnerImage} width={1200} height={900} alt="Floating garden runner world" className="absolute inset-0 size-full object-cover" />
+    <section className="mx-auto w-full max-w-2xl pb-2">
+      <header className="game-header">
+        <Button variant="ghost" size="icon" className="size-11 shrink-0 rounded-2xl" onClick={onDone} aria-label="Leave game">
+          <ArrowLeft />
+        </Button>
+        <div className="min-w-0 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-primary">Writing Reward</p>
+          <h1 className="font-display text-xl font-bold leading-tight sm:text-2xl">Endless Runner</h1>
+        </div>
+        <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-card px-3.5 py-2 text-sm font-bold shadow-soft" aria-label={`${time} seconds remaining`}>
+          <span aria-hidden="true">◷</span>{time}s
+        </div>
+      </header>
+
+      <div
+        className="runner-world runner-world--compact relative mt-4 overflow-hidden rounded-[1.75rem] shadow-card touch-none"
+        onPointerDown={jump}
+        role="button"
+        tabIndex={0}
+        aria-label="Runner game. Tap anywhere to jump and collect stars."
+      >
+        <img
+          src={runnerImage}
+          width={1200}
+          height={900}
+          alt="Floating garden runner world"
+          className="absolute inset-0 size-full object-cover"
+        />
         <div className="absolute inset-0 bg-game-wash" />
-        <div className="absolute left-5 top-5 flex gap-3"><div className="rounded-full bg-glass px-4 py-2 font-bold backdrop-blur">⭐ {score}</div><div className="rounded-full bg-glass px-4 py-2 text-sm font-bold backdrop-blur">Tap to jump</div></div>
-        {!finished && <><div className={cn("runner-character absolute bottom-[18%] left-[18%] grid size-20 place-items-center rounded-full bg-coral-soft text-5xl shadow-card", jumping && "runner-jump")}>🦊</div><div className="runner-obstacle absolute bottom-[18%] grid h-16 w-20 place-items-center rounded-2xl bg-mint text-3xl shadow-soft">🌿</div><div className="runner-star absolute bottom-[43%] text-4xl">⭐</div></>}
-        {finished && <div className="absolute inset-0 grid place-items-center bg-game-end p-6 text-center backdrop-blur-sm"><div className="max-w-sm rounded-[2rem] bg-card p-8 shadow-card"><Trophy className="mx-auto size-12 text-sun" /><p className="mt-4 text-sm font-bold text-primary">RUN COMPLETE</p><h2 className="mt-2 font-display text-4xl font-bold">{score} stars!</h2><p className="mt-3 text-sm font-semibold text-muted-foreground">Wonderful playing. Ready for your next letter?</p><Button className="mt-6 h-13 w-full rounded-2xl font-bold" onClick={onDone}>Keep writing <Pencil /></Button></div></div>}
+
+        <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-2">
+          <div className="rounded-full bg-glass px-4 py-2 font-bold backdrop-blur">
+            ⭐ {score}
+          </div>
+          <div className="rounded-full bg-glass px-4 py-2 text-xs font-bold backdrop-blur sm:text-sm">
+            Tap anywhere to jump
+          </div>
+        </div>
+
+        {!finished && (
+          <>
+            <div className={cn(
+              "runner-character absolute bottom-[16%] left-[17%] grid size-16 place-items-center rounded-full bg-coral-soft text-4xl shadow-card sm:size-20 sm:text-5xl",
+              jumping && "runner-jump"
+            )}>
+              🦊
+            </div>
+
+            <div
+              className="absolute bottom-[16%] grid h-14 w-16 place-items-center rounded-2xl bg-mint text-2xl shadow-soft sm:h-16 sm:w-20 sm:text-3xl"
+              style={{ left: `${obstacleX}%` }}
+              aria-hidden="true"
+            >
+              🌿
+            </div>
+
+            <div
+              className="absolute bottom-[41%] text-3xl drop-shadow-md sm:text-4xl"
+              style={{ left: `${starX}%` }}
+              aria-hidden="true"
+            >
+              ⭐
+            </div>
+          </>
+        )}
+
+        {finished && (
+          <div className="absolute inset-0 grid place-items-center bg-game-end p-5 text-center backdrop-blur-sm">
+            <div className="max-w-sm rounded-[1.75rem] bg-card p-6 shadow-card sm:p-8">
+              <Trophy className="mx-auto size-12 text-sun" />
+              <p className="mt-3 text-xs font-bold uppercase tracking-wider text-primary">Run complete</p>
+              <h2 className="mt-1 font-display text-3xl font-bold">{score} stars!</h2>
+              <p className="mt-2 text-sm font-semibold text-muted-foreground">
+                {score > 0 ? "Great collecting! Ready for your next letter?" : "Try jumping when the star reaches you."}
+              </p>
+              <Button className="mt-5 h-12 w-full rounded-2xl font-bold" onClick={onDone}>
+                Keep writing <Pencil />
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
-      {!finished && <Button className="mx-auto mt-5 flex h-14 w-full max-w-sm rounded-2xl text-base font-bold shadow-button" onClick={jump}>Jump <span aria-hidden="true">↑</span></Button>}
+
+      {!finished && (
+        <Button
+          className="mx-auto mt-4 flex h-14 w-full max-w-md rounded-2xl text-base font-bold shadow-button"
+          onClick={jump}
+        >
+          Jump <span aria-hidden="true">↑</span>
+        </Button>
+      )}
+
+      {!finished && (
+        <p className="mt-2 text-center text-xs font-semibold text-muted-foreground">
+          Jump over the 🌿 and collect ⭐
+        </p>
+      )}
     </section>
   );
 }
