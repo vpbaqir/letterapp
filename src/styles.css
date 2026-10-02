@@ -780,3 +780,82 @@
   }
 }
 
+
+/* =========================================================
+   MOBILE UX POLISH
+========================================================= */
+
+.game-mode {
+  min-height: 100dvh;
+}
+
+.game-page-shell {
+  min-height: 0;
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+.game-header {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 64px;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+}
+
+.runner-world--compact {
+  height: min(58dvh, 500px);
+  min-height: 330px;
+  max-height: 500px;
+  isolation: isolate;
+}
+
+.runner-world--compact::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 28%;
+  pointer-events: none;
+  background: linear-gradient(to top, oklch(0.28 0.035 251 / 12%), transparent);
+}
+
+.game-mode .runner-world--compact {
+  box-shadow: 0 18px 45px oklch(0.42 0.07 240 / 16%);
+}
+
+.game-mode button {
+  touch-action: manipulation;
+}
+
+@media (max-width: 520px) {
+  .game-page-shell {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .game-header {
+    grid-template-columns: 44px minmax(0, 1fr) 60px;
+  }
+
+  .runner-world--compact {
+    height: min(54dvh, 430px);
+    min-height: 320px;
+  }
+
+  .game-mode {
+    overflow-x: hidden;
+  }
+}
+
+@media (max-height: 700px) {
+  .runner-world--compact {
+    height: 330px;
+    min-height: 300px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runner-jump {
+    animation: none;
+  }
+}
